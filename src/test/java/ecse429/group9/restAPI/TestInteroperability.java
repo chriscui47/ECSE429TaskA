@@ -66,11 +66,16 @@ public class TestInteroperability {
         String url = "/projects/1/tasks";
         assertEquals(APIInstance.getStatusCode(url), StatusCodes.SC_SUCCESS);
         JSONObject value = APIInstance.request("GET", url);
-        assertEquals(2,value.getJSONArray("todos").length());
-        assertEquals("1", value.getJSONArray("todos").getJSONObject(0).getString("id"));
-        assertEquals("scan paperwork", value.getJSONArray("todos").getJSONObject(0).getString("title"));
-        assertEquals("2", value.getJSONArray("todos").getJSONObject(1).getString("id"));
-        assertEquals("file paperwork", value.getJSONArray("todos").getJSONObject(1).getString("title"));
+        assertEquals(2, value.getJSONArray("todos").length());
+
+        String atZero = value.getJSONArray("todos").getJSONObject(0).getString("id");
+        if (atZero == "1") {
+            assertEquals("scan paperwork", value.getJSONArray("todos").getJSONObject(0).getString("title"));
+            assertEquals("file paperwork", value.getJSONArray("todos").getJSONObject(1).getString("title"));
+        } else {
+            assertEquals("scan paperwork", value.getJSONArray("todos").getJSONObject(1).getString("title"));
+            assertEquals("file paperwork", value.getJSONArray("todos").getJSONObject(0).getString("title"));
+        }
     }
 
     @Test
@@ -129,10 +134,12 @@ public class TestInteroperability {
     // 2.1 to do
 
     @Test
-    public void testPostDeleteToDoTasksOf() throws IOException {
+    public void testPostDeleteToDoTasksOf() throws IOException, InterruptedException {
         JSONObject json = new JSONObject();
         json.put("id", "1");
         APIInstance.post("/todos/1/tasksof", json.toString());
+
+        Thread.sleep(500);
 
         JSONObject value = APIInstance.request("GET", "/todos/1/tasksof");
         assertEquals(1,value.getJSONArray("projects").length());
@@ -140,6 +147,8 @@ public class TestInteroperability {
         assertEquals("Office Work", value.getJSONArray("projects").getJSONObject(0).getString("title"));
 
         APIInstance.request("DELETE", "/todos/1/tasksof/1");
+
+        Thread.sleep(500);
 
         JSONObject value2 = APIInstance.request("GET", "/todos/1/tasksof");
         assertEquals(0,value2.getJSONArray("projects").length());
@@ -149,10 +158,12 @@ public class TestInteroperability {
     }
 
     @Test
-    public void testPostDeleteToDoCategory() throws IOException {
+    public void testPostDeleteToDoCategory() throws IOException, InterruptedException {
         JSONObject json = new JSONObject();
         json.put("id", "2");
         APIInstance.post("/todos/1/categories", json.toString());
+
+        Thread.sleep(500);
 
         JSONObject value = APIInstance.request("GET", "/todos/1/categories");
         assertEquals(2,value.getJSONArray("categories").length());
@@ -163,10 +174,12 @@ public class TestInteroperability {
 
         APIInstance.request("DELETE", "/todos/1/categories/2");
 
-        JSONObject response2 = APIInstance.request("GET", "/todos/1/categories");
-        assertEquals(1,response2.getJSONArray("categories").length());
-        assertEquals("1", value.getJSONArray("categories").getJSONObject(0).getString("id"));
-        assertEquals("Office", value.getJSONArray("categories").getJSONObject(0).getString("title"));
+        Thread.sleep(500);
+
+        JSONObject value2 = APIInstance.request("GET", "/todos/1/categories");
+        assertEquals(1,value2.getJSONArray("categories").length());
+        assertEquals("1", value2.getJSONArray("categories").getJSONObject(0).getString("id"));
+        assertEquals("Office", value2.getJSONArray("categories").getJSONObject(0).getString("title"));
     }
 
     // 2.2 project
@@ -179,18 +192,24 @@ public class TestInteroperability {
         Thread.sleep(500);
 
         JSONObject value = APIInstance.request("GET", "/projects/1/tasks");
-        assertEquals(2,value.getJSONArray("todos").length());
-        assertEquals("1", value.getJSONArray("todos").getJSONObject(0).getString("id"));
-        assertEquals("scan paperwork", value.getJSONArray("todos").getJSONObject(0).getString("title"));
-        assertEquals("2", value.getJSONArray("todos").getJSONObject(1).getString("id"));
-        assertEquals("file paperwork", value.getJSONArray("todos").getJSONObject(1).getString("title"));
+        assertEquals(2, value.getJSONArray("todos").length());
+
+        String atZero = value.getJSONArray("todos").getJSONObject(0).getString("id");
+        if (atZero == "1") {
+            assertEquals("scan paperwork", value.getJSONArray("todos").getJSONObject(0).getString("title"));
+            assertEquals("file paperwork", value.getJSONArray("todos").getJSONObject(1).getString("title"));
+        } else {
+            assertEquals("scan paperwork", value.getJSONArray("todos").getJSONObject(1).getString("title"));
+            assertEquals("file paperwork", value.getJSONArray("todos").getJSONObject(0).getString("title"));
+        }
 
         APIInstance.request("DELETE", "/projects/1/tasks/1");
+        Thread.sleep(500);
 
         JSONObject value2 = APIInstance.request("GET", "/projects/1/tasks");
         assertEquals(1, value2.getJSONArray("todos").length());
-        assertEquals("2", value.getJSONArray("todos").getJSONObject(1).getString("id"));
-        assertEquals("file paperwork", value.getJSONArray("todos").getJSONObject(1).getString("title"));
+        assertEquals("2", value2.getJSONArray("todos").getJSONObject(0).getString("id"));
+        assertEquals("file paperwork", value2.getJSONArray("todos").getJSONObject(0).getString("title"));
 
         APIInstance.post("/projects/1/tasks", json.toString());
         // add back
@@ -209,6 +228,7 @@ public class TestInteroperability {
         assertEquals("Office", value.getJSONArray("categories").getJSONObject(0).getString("title"));
 
         APIInstance.request("DELETE", "/projects/1/categories/1");
+        Thread.sleep(500);
 
         JSONObject value2 = APIInstance.request("GET", "/projects/1/categories");
         assertEquals(0,value2.getJSONArray("categories").length());
@@ -230,6 +250,8 @@ public class TestInteroperability {
 
         APIInstance.request("DELETE", "/categories/1/todos/1");
 
+        Thread.sleep(500);
+
         JSONObject value2 = APIInstance.request("GET", "/categories/1/todos");
         assertEquals(0, value2.getJSONArray("todos").length());
     }
@@ -247,6 +269,8 @@ public class TestInteroperability {
         assertEquals("Office Work", value.getJSONArray("projects").getJSONObject(0).getString("title"));
 
         APIInstance.request("DELETE", "/categories/1/projects/1");
+
+        Thread.sleep(500);
 
         JSONObject value2 = APIInstance.request("GET", "/categories/1/projects");
         assertEquals(0,value2.getJSONArray("projects").length());
