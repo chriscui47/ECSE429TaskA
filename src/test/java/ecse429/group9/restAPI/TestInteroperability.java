@@ -166,11 +166,17 @@ public class TestInteroperability {
         Thread.sleep(500);
 
         JSONObject value = APIInstance.request("GET", "/todos/1/categories");
+
         assertEquals(2,value.getJSONArray("categories").length());
-        assertEquals("1", value.getJSONArray("categories").getJSONObject(0).getString("id"));
-        assertEquals("Office", value.getJSONArray("categories").getJSONObject(0).getString("title"));
-        assertEquals("2", value.getJSONArray("categories").getJSONObject(1).getString("id"));
-        assertEquals("Home", value.getJSONArray("categories").getJSONObject(1).getString("title"));
+
+        String atZero = value.getJSONArray("categories").getJSONObject(0).getString("id");
+        if (atZero == "1") {
+            assertEquals("Office", value.getJSONArray("categories").getJSONObject(1).getString("title"));
+            assertEquals("Home", value.getJSONArray("categories").getJSONObject(0).getString("title"));
+        } else {
+            assertEquals("Office", value.getJSONArray("categories").getJSONObject(0).getString("title"));
+            assertEquals("Home", value.getJSONArray("categories").getJSONObject(1).getString("title"));
+        }
 
         APIInstance.request("DELETE", "/todos/1/categories/2");
 
