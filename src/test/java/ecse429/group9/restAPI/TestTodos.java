@@ -1,6 +1,5 @@
 package ecse429.group9.restAPI;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -9,9 +8,8 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
-import java.util.Objects;
 
-import static java.lang.Thread.*;
+import static java.lang.Thread.sleep;
 import static java.util.Objects.requireNonNull;
 import static org.junit.Assert.*;
 
@@ -47,19 +45,6 @@ public class TestTodos {
     public void stopInstance() {
         APIInstance.killInstance();
     }
-
-    /*
-    @Test
-    public void testStartingApp() throws IOException {
-
-        //TODO
-        //TodoInstance is created using the run method, then the status code is returned.
-        //Success code of 200 passes this test.
-        assertEquals(StatusCodes.SC_SUCCESS,APIInstance.getStatusCode("/todos"));
-
-    }
-    */
-
 
     /**
      * Tests done at the endpoint "/todos" of the API application.
@@ -235,7 +220,7 @@ public class TestTodos {
 
         //Create a new todos instance with only a Title in the request body
         JSONObject newTodo = new JSONObject();
-        newTodo.put("title", "POST with only a Title Test");
+        newTodo.put("title", "POST with only a title");
 
         //GET all todos before the POST request and count them
         int prevCount = requireNonNull(APIInstance.request("GET", "/todos"))
@@ -278,33 +263,6 @@ public class TestTodos {
         //Compare the quantity of todos after the POST request with the quantity before
         assertEquals(prevCount, currCount);
     }
-
-
-
-
-
-/*TODO check if these are necessary???
-/*
-    @Test
-    public void testGetByInvalidDoneStatus() throws IOException {
-        String donestatus_invalid = "/todos?doneStatus=maybe";
-        JSONObject response = TodoInstance.send("GET", donestatus_invalid);
-        assertEquals(0,response.getJSONArray("todos").length());
-    }
-    @Test
-    public void testGetByDescription() throws IOException {
-        String description = "/todos?description=";
-        JSONObject response = TodoInstance.send("GET", description);
-        assertEquals(2,response.getJSONArray("todos").length());
-    }
-    @Test
-    public void testGetByInvalidDescription() throws IOException{
-        String description = "/todos?description=NonExistent";
-        JSONObject response = TodoInstance.send("GET", description);
-        assertEquals(0,response.getJSONArray("todos").length());
-    }
-     */
-
 
     /**
      * Tests done at the endpoint "/todos/:id" of the API application.
@@ -403,7 +361,7 @@ public class TestTodos {
         }
     }
 
-    //Update title
+    //Update title using POST
     @Test
     public void changeTitle() throws IOException, InterruptedException {
 
@@ -433,7 +391,7 @@ public class TestTodos {
         }
     }
 
-    //Update done status
+    //Update done status using POST
     @Test
     public void changeDoneStatus() throws IOException, InterruptedException {
 
@@ -463,7 +421,7 @@ public class TestTodos {
         }
     }
 
-    //Update description
+    //Update description using POST
     @Test
     public void changeDescription() throws IOException, InterruptedException {
 
@@ -493,94 +451,12 @@ public class TestTodos {
         }
     }
 
-
-    //TODO ??????????? copy of update title?
-    /*
-    //PUT todos/id
-    @Test
-    public void testOverrideTitle() throws IOException, InterruptedException {
-        String validID = "/todos/1";
-        String title = "NEWTITLE";
-
-        JSONObject json = new JSONObject();
-        json.put("title", title);
-        TodoInstance.put(validID,json.toString());
-        Thread.sleep(200);
-
-        JSONObject response = TodoInstance.send("GET", "/todos/1");
-        assertEquals(title,response.getJSONArray("todos").getJSONObject(0).get("title"));
-        boolean NotExist = false;
-        try{
-            response.getJSONArray("todos").getJSONObject(0).get("categories");
-            response.getJSONArray("todos").getJSONObject(0).get("tasksof");
-        } catch(JSONException e) {
-            NotExist = true;
-        }
-
-        assertEquals(true,NotExist);
-    }
-    @Test
-    public void testOverrideDoneStatus() throws IOException, InterruptedException {
-        String validID = "/todos/1";
-        String title = "NEWTITLE";
-        boolean donestatus = true;
-
-        JSONObject json = new JSONObject();
-        json.put("title", title);
-        json.put("doneStatus", donestatus);
-        TodoInstance.put(validID,json.toString());
-        Thread.sleep(200);
-
-        JSONObject response = TodoInstance.send("GET", "/todos/1");
-        assertEquals(title,response.getJSONArray("todos").getJSONObject(0).get("title"));
-        assertEquals("true",response.getJSONArray("todos").getJSONObject(0).get("doneStatus"));
-        boolean NotExist = false;
-        try{
-            response.getJSONArray("todos").getJSONObject(0).get("categories");
-            response.getJSONArray("todos").getJSONObject(0).get("tasksof");
-        } catch(JSONException e) {
-            NotExist = true;
-        }
-
-        assertEquals(true,NotExist);
-    }
-    @Test
-    public void testOverrideDescription() throws IOException, InterruptedException {
-        String validID = "/todos/1";
-        String title = "NEWTITLE";
-        String description = "DESCRIPTION";
-
-        JSONObject json = new JSONObject();
-        json.put("title", title);
-        json.put("description", description);
-        APIInstance.put(validID,json.toString());
-        Thread.sleep(200);
-
-        JSONObject response = TodoInstance.send("GET", "/todos/1");
-        assertEquals(title,response.getJSONArray("todos").getJSONObject(0).get("title"));
-        assertEquals("DESCRIPTION",response.getJSONArray("todos").getJSONObject(0).get("description"));
-        boolean NotExist = false;
-        try{
-            response.getJSONArray("todos").getJSONObject(0).get("categories");
-            response.getJSONArray("todos").getJSONObject(0).get("tasksof");
-        } catch(JSONException e) {
-            NotExist = true;
-        }
-
-        assertEquals(true,NotExist);
-    }
-*/
-
-
-
-/*
-    //DELETE todos
+    //DELETE request on '/todos' endpoint is an  command and needs to return
     @Test
     public void testDeleteAllTodos() throws IOException {
-        String option = "/todos";
-        assertEquals(TodoInstance.SC_UNSUPPORTED,TodoInstance.getStatusCode("DELETE", option));
+
+        assertEquals(405,APIInstance.getStatusCode("DELETE", "/todos"));
     }
-*/
 
 
     /*
@@ -659,24 +535,22 @@ public class TestTodos {
                 , response == null);
     }
 
-
-    //TODO I dont know whats the point of these... how do you check what to expect when they dont do anything
     /*
+     * HEAD request tests to make sure the documented features are supported and return the appropriate type of response.
+     */
 
-    //HEAD todos
+    //HEAD request on '/todos' endpoint
     @Test
     public void testHeadTodos() throws IOException {
-        String option = "/todos";
-        String head = TodoInstance.getHeadContentType(option);
-        assertEquals("application/json", head);
-    }
 
+        //Test to make sure HEAD request returns 'application/json' type.
+        assertEquals("application/json", APIInstance.getHeadContentType("/todos"));
+    }
+    //HEAD request on '/todos/id' endpoint
     @Test
     public void testHeadTodosID() throws IOException{
-        String option = "/todos/1";
-        String head = TodoInstance.getHeadContentType(option);
-        assertEquals("application/json", head);
-    }
-*/
 
+        //Test to make sure HEAD request returns 'application/json' type.
+        assertEquals("application/json", APIInstance.getHeadContentType("/todos/1"));
+    }
 }
