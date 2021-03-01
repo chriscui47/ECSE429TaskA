@@ -3,9 +3,6 @@ Feature: Add Task
   I add a task to a course todo list,
   so I can remember it.
 
-  Background:
-    Given the todo manager API server is already running
-
   Scenario Outline: Adding a new unique task to a todo list (Normal Flow)
     Given there exists a project with title "<projectTitle>"
     When I add a new task with the title "<taskTitle>" to the todo list "<projectTitle>"
