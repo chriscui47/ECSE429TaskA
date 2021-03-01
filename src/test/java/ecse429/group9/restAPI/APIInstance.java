@@ -33,6 +33,26 @@ public class APIInstance {
             e.printStackTrace();
         }
     }
+    public static JSONObject send(String type, String option) throws IOException {
+        URL url = new URL(URL + option);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod(type);
+        connection.setRequestProperty("Accept", "application/json");
+        System.out.println(connection.getContentType());
+        System.out.println(connection.getResponseCode());
+        if (connection.getResponseCode() != 200) {
+            return null;
+        }
+        BufferedReader br = new BufferedReader(new InputStreamReader((connection.getInputStream())));
+        String response = br.readLine();
+        if (response == null) {
+            return null;
+        }
+
+        JSONObject json = new JSONObject(response);
+        connection.disconnect();
+        return json;
+    }
 
     public static JSONObject request(String type, String option) throws IOException {
         URL url = new URL(URL + option);
