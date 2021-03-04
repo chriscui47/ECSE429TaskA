@@ -1,35 +1,41 @@
-Feature: Add Task
-  As a student,
-  I add a task to a course todo list,
-  so I can remember it.
+Feature: As a student, I want to create a project so that I can manage my projects
 
-  Scenario Outline: Adding a new unique task to a todo list (Normal Flow)
-    Given there exists a project with title "<projectTitle>"
-    When I add a new task with the title "<taskTitle>" to the todo list "<projectTitle>"
-    Then there will be a new task with title "<taskTitle>" in the todo list "<projectTitle>"
 
-    Examples:
-      | taskTitle         | projectTitle |
-      | Relax             | Today        |
-      | FinishAssignment | General      |
-      | WatchNetflix     | Today        |
 
-  Scenario Outline: Adding a pre-existing task to a todo list (Alternate Flow)
-    Given there exists a project with title "<projectTitle>"
-    When I add a new task with the title "<taskTitle>" to the todo list "<projectTitle>"
-    Then there will be a new task with title "<taskTitle>" in the todo list "<projectTitle>"
+  Scenario Outline: Create a new class todo with a title (Normal Flow)
+    Given "<title>" is the title of the class
+    When the user creates a new to do list for a class
+    Then a todo list instance with "<title>" will be created
 
     Examples:
-      | taskTitle | projectTitle |
-      | Youtube   | Today        |
-      | Youtube   | Today        |
-      | Youtube   | Today        |
+      | title   |
+      | COMP250 |
+      | ECSE429 |
+      | MATH240 |
 
-  Scenario Outline: Adding a task to a non-existent todo list (Error Flow)
-    Given there exists a project with title "<projectTitle>"
-    When I add a new task with the title "<taskTitle>" to the wrong todo list "<wrongTitle>"
-    Then the system will inform the user that the todo list "<wrongTitle>" is non-existent
+  Scenario Outline: Create a new class todo with a title, done status and description (Alternative Flow)
+    Given "<title>" is the title of the class
+    And "<active>" is the active state of the class
+    And "<completed>" is the completion state of the class
+    And "<description>" is the description of the class
+    When the user creates a new to do list for a class
+    Then a todo instance with "<title>", "<active>", "<completed>", "<description>" will be created
 
     Examples:
-      | taskTitle | projectTitle | wrongTitle |
-      | Study     | FACC300      | FACC250    |
+      | title   | active | completed | description                       |
+      | COMP250 | true   | false     | Introduction-to-Computer Science  |
+      | ECSE429 | true   | true      | Software-Validation               |
+      | MATH240 | false  | false     | Discrete-Structures               |
+
+
+  Scenario Outline: Create a new class todo without a title but has a done status and description (Error flow)
+    Given "<completed>" is the completion state of the class
+    And "<description>" is the description of the class
+    When the user creates a new to do list for a class
+    Then error 404 will occur
+
+    Examples:
+      | completed  | description                        |
+      | true      | Introduction-to-Computer Science   |
+      | true      | Software-Validation                |
+      | false     | Discrete-Structures                |
