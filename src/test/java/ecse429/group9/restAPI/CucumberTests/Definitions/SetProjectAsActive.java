@@ -15,17 +15,24 @@ import static org.junit.Assert.assertEquals;
 public class SetProjectAsActive {
 
     String error;
+    public static JSONObject json = null;
 
-    @Given("a todo with the title {string} and done status {string}")
-    public void a_todo_with_the_title_and_done_status(String title, String prevDoneStatus) throws IOException {
+    @Given("the Todo API server running")
+    public void the_Todo_API_server_is_running(){
+        APIInstance.runApplication();
+        json = new JSONObject();
+    }
+
+    @Given("a project with the title {string} and completed status {string}")
+    public void a_todo_with_the_title_and_done_status(String title, String prevCompletedStatus) throws IOException {
         JSONObject json = new JSONObject();
         json.put("title", title);
-        boolean doneStatus = false;
-        if (prevDoneStatus.equals("true")){
-            doneStatus = true;
+        boolean completedStatus = false;
+        if (prevCompletedStatus.equals("true")){
+            completedStatus = true;
         }
-        json.put("doneStatus", doneStatus);
-        APIInstance.post("/todos", json.toString());
+        json.put("completed", completedStatus);
+        APIInstance.post("/project", json.toString());
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -34,18 +41,18 @@ public class SetProjectAsActive {
     }
 
     @When("the user requests to mark the task {string} with a done status {string}")
-    public void the_user_requests_to_mark_the_task_with_a_done_status(String title, String nextDoneStatus) throws IOException {
+    public void the_user_requests_to_mark_the_task_with_a_done_status(String title, String nextCompletedStatus) throws IOException {
         JSONObject json = new JSONObject();
-        boolean doneStatus = false;
-        if (nextDoneStatus.equals("true")){
-            doneStatus = true;
+        boolean completedStatus = false;
+        if (nextCompletedStatus.equals("true")){
+            completedStatus = true;
         }
-        json.put("doneStatus", doneStatus);
-        JSONObject response = APIInstance.send("GET", "/todos?title=" + title);
+        json.put("completed", completedStatus);
+        JSONObject response = APIInstance.send("GET", "/projects?title=" + title);
 
-        if (response.getJSONArray("todos").length() != 0){
-            String id = response.getJSONArray("todos").getJSONObject(0).getString("id");
-            APIInstance.post("/todos/" + id, json.toString());
+        if (response.getJSONArray("projects").length() != 0){
+            String id = response.getJSONArray("projects").getJSONObject(0).getString("id");
+            APIInstance.post("/projects/" + id, json.toString());
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -56,16 +63,16 @@ public class SetProjectAsActive {
         }
     }
 
-    @Then("the task {string} will be marked with the done status {string}")
-    public void the_task_will_be_marked_with_the_done_status(String title, String nextDoneStatus) throws IOException {
-        JSONObject response = APIInstance.send("GET", "/todos?title=" + title);
-        String doneStatus = response.getJSONArray("todos").getJSONObject(0).getString("doneStatus");
-        assertEquals(nextDoneStatus, doneStatus);
+    @Then("the project {string} will be marked with the completed status {string}")
+    public void the_task_will_be_marked_with_the_done_status(String title, String nextCompletedStatus) throws IOException {
+        JSONObject response = APIInstance.send("GET", "/projects?title=" + title);
+        String completedStatus = response.getJSONArray("projects").getJSONObject(0).getString("completed");
+        assertEquals(nextCompletedStatus, completedStatus);
     }
 
-    @Given("no todo with id {string} is registered in the API server")
+    @Given("no project with id {string} is registered in the API server")
     public void no_todo_with_id_is_registered_in_the_API_server(String id) throws IOException {
-        JSONObject response = APIInstance.send("DELETE", "/todos/" + id);
+        JSONObject response = APIInstance.send("DELETE", "/projects/" + id);
     }
 
     @Then("system will output an error with error code {string}")
