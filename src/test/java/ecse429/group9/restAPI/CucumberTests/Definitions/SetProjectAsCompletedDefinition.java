@@ -21,13 +21,18 @@ public class SetProjectAsCompletedDefinition {
     @Given("a project with the title {string} and completed status {string}")
     public void a_todo_with_the_title_and_done_status(String title, String prevCompletedStatus) throws IOException {
         JSONObject json = new JSONObject();
+
         json.put("title", title);
+
         boolean completedStatus = false;
         if (prevCompletedStatus.equals("true")){
             completedStatus = true;
         }
         json.put("completed", completedStatus);
         APIInstance.post("/project", json.toString());
+
+
+
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -35,8 +40,13 @@ public class SetProjectAsCompletedDefinition {
         }
     }
 
+
+
+
+
+
     @When("the user requests to mark the project {string} with a completed status {string}")
-    public void the_user_requests_to_mark_the_task_with_a_done_status(String title, String nextCompletedStatus) throws IOException {
+    public void the_user_requests_to_mark_the_project_with_a_done_status(String title, String nextCompletedStatus) throws IOException {
         JSONObject json = new JSONObject();
         boolean completedStatus = false;
         if (nextCompletedStatus.equals("true")){

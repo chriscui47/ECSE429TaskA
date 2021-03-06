@@ -56,8 +56,7 @@ public class CreateProjectDefinition {
     //Scenario Outline: Normal Flow
 
     @When("the user creates a project for a class")
-    public void the_user_creates_a_new_class(){
-        System.out.println(json.toString());
+    public void the_user_creates_a_new_project(){
         if (!(json.has("title"))){
             error = true;
         }
@@ -87,22 +86,21 @@ public class CreateProjectDefinition {
 
     //Scenario Outline: Alternative Flow
 
-    @Then("a project with {string}, {string}, {string}, {string} will be created")
-    public void aTodoInstanceWithWillBeCreated(String title, String active, String completed, String description){
+    @Then("a project with {string}, {string}, {string} will be created")
+    public void aProjectInstanceWithWillBeCreated(String title, String active, String description){
         JSONObject response = null;
 
         try {
             response = APIInstance.send("GET", "/projects?title=" + title);
+            System.out.println(response.toString());
         } catch (IOException e) {
             error = true;
         }
 
-        JSONObject todoList = response.getJSONArray("projects").getJSONObject(0);
+        JSONObject projects = response.getJSONArray("projects").getJSONObject(0);
 
-        assertEquals(title, todoList.getString("title"));
-        assertEquals(active, todoList.getString("active"));
-        assertEquals(completed, todoList.getString("completed"));
-        assertEquals(description, todoList.getString("description"));
+        assertEquals(title, projects.getString("title"));
+        assertEquals(description, projects.getString("description"));
     }
 
     //Scenario Outline: Error Flow

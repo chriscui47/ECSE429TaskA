@@ -16,7 +16,7 @@ Examples:
 
 Scenario Outline: Change a project description that is related to a project (Alternative Flow)
 Given the title of the project "<title>"
-And "<title>" is related to projects with title "<projecttitle>"
+And "<title>" is related to projects with title "<title>"
 When the user posts description change of project "<title>" to "<description>"
 Then the project "<title>" description will be changed to "<description>"
 

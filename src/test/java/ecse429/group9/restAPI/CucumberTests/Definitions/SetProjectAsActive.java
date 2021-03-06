@@ -18,7 +18,7 @@ public class SetProjectAsActive {
     public static JSONObject json = null;
 
 
-    @Given("a project with the title {string} and active status {string} 1")
+    @Given("a project with the title {string} and active status {string}")
     public void a_todo_with_the_title_and_done_status(String title, String prevActiveStatus) throws IOException {
         JSONObject json = new JSONObject();
         json.put("title", title);
@@ -26,7 +26,7 @@ public class SetProjectAsActive {
         if (prevActiveStatus.equals("true")){
             activeStatus = true;
         }
-        json.put("completed", activeStatus);
+        json.put("active", activeStatus);
         APIInstance.post("/project", json.toString());
         try {
             Thread.sleep(500);
@@ -35,7 +35,7 @@ public class SetProjectAsActive {
         }
     }
 
-    @When("the user requests to mark the project {string} with an active status {string} 1")
+    @When("the user requests to mark the project {string} with an active status {string}")
     public void the_user_requests_to_mark_the_task_with_a_done_status(String title, String nextActiveStatus) throws IOException {
         JSONObject json = new JSONObject();
         boolean activeStatus = false;
@@ -58,11 +58,11 @@ public class SetProjectAsActive {
         }
     }
 
-    @Then("the project {string} will be marked with the active status {string} 1")
-    public void the_task_will_be_marked_with_the_done_status(String title, String nextCompletedStatus) throws IOException {
+    @Then("the project {string} will be marked with the active status {string}")
+    public void the_task_will_be_marked_with_the_done_status(String title, String nextActiveStatus) throws IOException {
         JSONObject response = APIInstance.send("GET", "/projects?title=" + title);
-        String completedStatus = response.getJSONArray("projects").getJSONObject(0).getString("active");
-        assertEquals(nextCompletedStatus, completedStatus);
+        String activeStatus = response.getJSONArray("projects").getJSONObject(0).getString("active");
+        assertEquals(activeStatus, nextActiveStatus);
     }
 
     @Given("no project with id {string} is registered in the API server 1")
