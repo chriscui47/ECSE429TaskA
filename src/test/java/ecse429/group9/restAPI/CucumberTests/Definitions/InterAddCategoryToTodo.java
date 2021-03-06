@@ -21,7 +21,7 @@ public class InterAddCategoryToTodo {
         assertEquals(2, response_todo.getJSONArray("todo").length());
     }
 
-    @When("I add an existing category with the id {string} to an existing todo with the id {string}")
+    @When("I add a new category with the id {string} to an existing todo with the id {string}")
     public void addNewCategoryToTodo(String catId, String todoId) throws IOException, InterruptedException {
         String option = "/todos/" + todoId + "/categories";
 
@@ -79,7 +79,7 @@ public class InterAddCategoryToTodo {
                 "The given endpoint needs to be valid.",response != null);
     }
 
-    @When("I add a non existing category with the id {categoryId} to an existing todo with the id {todoId}")
+    @When("I add a non existing category with the id {string} to an existing todo with the id {string}")
     public void addNonExistingCat(String catId, String todoId) throws IOException, InterruptedException {
         String option = "/todos/" + todoId + "/categories";
 

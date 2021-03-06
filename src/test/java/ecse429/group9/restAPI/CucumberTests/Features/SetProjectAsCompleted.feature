@@ -1,7 +1,6 @@
 Feature: a student, I mark a project as completed on my course to do list, so I can track my schoolwork.
 
-  Background:
-    Given the Todo API server running
+
 
   Scenario Outline: mark a not done project as done (Normal Flow)
     Given a project with the title "<title>" and completed status "<prevCompletedStatus>"

@@ -17,11 +17,6 @@ public class SetProjectAsActive {
     String error;
     public static JSONObject json = null;
 
-    @Given("the Todo API server running 1")
-    public void the_Todo_API_server_is_running(){
-        APIInstance.runApplication();
-        json = new JSONObject();
-    }
 
     @Given("a project with the title {string} and active status {string} 1")
     public void a_todo_with_the_title_and_done_status(String title, String prevActiveStatus) throws IOException {

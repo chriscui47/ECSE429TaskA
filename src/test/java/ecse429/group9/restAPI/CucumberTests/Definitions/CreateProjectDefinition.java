@@ -25,18 +25,18 @@ public class CreateProjectDefinition {
         json = new JSONObject();
     }
 
-    @Given("{string} is the title of the class")
+    @Given("{string} is the title of the project")
     public void is_the_title_of_the_class(String title){
         json.put("title", title);
     }
 
-    @Given("{string} is the description of the class")
+    @Given("{string} is the description of the project")
     public void isTheDescriptionOfTheClass(String description){
         json.put("description", description);
     }
 
-    @Given("{string} is the active state of the class")
-    public void is_the_done_status_of_the_class(String active){
+    @Given("{string} is the active state of the project")
+    public void is_the_done_status_of_the_project(String active){
         boolean status = false;
         if (active.equals("true")){
             status = true;
@@ -44,8 +44,8 @@ public class CreateProjectDefinition {
         json.put("active", status);
     }
 
-    @Given("{string} is the completion state of the class")
-    public void is_the_completion_state_of_the_class(String completed){
+    @Given("{string} is the completion state of the project")
+    public void is_the_completion_state_of_the_project(String completed){
         boolean status = false;
         if (completed.equals("true")){
             status = true;
@@ -55,7 +55,7 @@ public class CreateProjectDefinition {
 
     //Scenario Outline: Normal Flow
 
-    @When("the user creates a new to do list for a class")
+    @When("the user creates a project for a class")
     public void the_user_creates_a_new_class(){
         System.out.println(json.toString());
         if (!(json.has("title"))){
@@ -73,7 +73,7 @@ public class CreateProjectDefinition {
         }
     }
 
-    @Then("a todo list instance with {string} will be created")
+    @Then("a project with {string} will be created")
     public void aTodoInstanceWithWillBeCreated(String title){
         JSONObject response = null;
         try {
@@ -87,7 +87,7 @@ public class CreateProjectDefinition {
 
     //Scenario Outline: Alternative Flow
 
-    @Then("a todo instance with {string}, {string}, {string}, {string} will be created")
+    @Then("a project with {string}, {string}, {string}, {string} will be created")
     public void aTodoInstanceWithWillBeCreated(String title, String active, String completed, String description){
         JSONObject response = null;
 

@@ -17,11 +17,6 @@ public class SetProjectAsCompletedDefinition {
     String error;
     public static JSONObject json = null;
 
-    @Given("the Todo API server running")
-    public void the_Todo_API_server_is_running(){
-        APIInstance.runApplication();
-        json = new JSONObject();
-    }
 
     @Given("a project with the title {string} and completed status {string}")
     public void a_todo_with_the_title_and_done_status(String title, String prevCompletedStatus) throws IOException {
