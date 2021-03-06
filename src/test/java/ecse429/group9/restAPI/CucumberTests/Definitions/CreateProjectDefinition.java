@@ -30,6 +30,11 @@ public class CreateProjectDefinition {
         json.put("title", title);
     }
 
+    @Given("{string} is the id of the project")
+    public void is_the_id_of_the_class(String id){
+        json.put("id", id);
+    }
+
     @Given("{string} is the description of the project")
     public void isTheDescriptionOfTheClass(String description){
         json.put("description", description);
@@ -42,6 +47,11 @@ public class CreateProjectDefinition {
             status = true;
         }
         json.put("active", status);
+    }
+    @Then("there exists 0 projects")
+    public void thereExistsTwoProjects() throws IOException {
+        JSONObject response = APIInstance.request("GET", "/projects");
+        assertEquals(0, response.getJSONArray("projects").length());
     }
 
     @Given("{string} is the completion state of the project")

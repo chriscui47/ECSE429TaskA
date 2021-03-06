@@ -1,7 +1,6 @@
 Feature:
-  As a student,
-  I add a project to a course todo list,
-  so I can remember it.
+  As a student, I create a project,
+  so that I can organize my work
   Background:
     Given the Todo API server is running
   Scenario Outline: Creating a new project (Normal Flow)
@@ -29,10 +28,10 @@ Feature:
       | General      |    goodbye       |True                    |
       | Today        |    yessir         |True                   |
 
-  Scenario Outline: Creating project without title
+  Scenario Outline: Creating project with id
+    Given "<id>" is the id of the project
     When the user creates a project for a class
-    Then error 404 will occur
-
+    Then there exists 0 projects
     Examples:
-      |  |
-      |      |
+      |  id|
+      |  1    |
