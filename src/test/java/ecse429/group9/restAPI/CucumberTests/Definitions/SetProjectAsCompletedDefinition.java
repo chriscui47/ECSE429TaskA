@@ -40,7 +40,7 @@ public class SetProjectAsCompletedDefinition {
         }
     }
 
-    @When("the user requests to mark the task {string} with a done status {string}")
+    @When("the user requests to mark the project {string} with a completed status {string}")
     public void the_user_requests_to_mark_the_task_with_a_done_status(String title, String nextCompletedStatus) throws IOException {
         JSONObject json = new JSONObject();
         boolean completedStatus = false;
