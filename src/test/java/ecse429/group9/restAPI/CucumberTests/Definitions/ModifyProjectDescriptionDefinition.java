@@ -20,9 +20,17 @@ public class ModifyProjectDescriptionDefinition {
     String error;
 
     @Given("the title of the project {string}")
-    public void theTitleOfTheProject(String arg0) throws IOException {
+    public void theTitleOfTheProject(String title) throws IOException {
         JSONObject json = new JSONObject();
-        json.put("title", arg0);
+        json.put("title", title);
+        APIInstance.post("/projects", json.toString());
+    }
+
+    @Given("the title of the project {string}, the description {string}")
+    public void theTitleOfTheProjectDescrip(String title,String description) throws IOException {
+        JSONObject json = new JSONObject();
+        json.put("title", title);
+        json.put("description", description);
         APIInstance.post("/projects", json.toString());
     }
 
@@ -50,16 +58,17 @@ public class ModifyProjectDescriptionDefinition {
         assertEquals(arg1, description);
     }
 
-    @And("{string} is related to projects with title {string}")
+
+    @And("{string} is related to task with title {string}")
     public void isRelatedToProjectsWithTitle(String arg0, String arg1) throws IOException {
         JSONObject response = APIInstance.send("GET", "/projects?title=" + arg0);
 
         JSONObject jsonPr = new JSONObject();
         jsonPr.put("title", arg1);
         APIInstance.post("/projects", jsonPr.toString());
-        JSONObject responsePr = APIInstance.send("GET", "/projects?title=" + arg1);
+        JSONObject responsePr = APIInstance.send("GET", "/todos?title=" + arg1);
 
-        if (response.getJSONArray("projects").length() != 0 && responsePr.getJSONArray("projects").length() != 0) {
+        if (response.getJSONArray("projects").length() != 0 && responsePr.getJSONArray("tasks").length() != 0) {
             String id = response.getJSONArray("projects").getJSONObject(0).getString("id");
             APIInstance.post("/projects/" + id, jsonPr.toString());
         } else {

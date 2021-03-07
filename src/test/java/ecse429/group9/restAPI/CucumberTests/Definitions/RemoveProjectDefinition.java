@@ -16,14 +16,14 @@ import static org.junit.Assert.assertEquals;
 public class RemoveProjectDefinition {
     String error;
 
-    @Given("{string} is the title of the to do list to be removed")
+    @Given("{string} is the title of the project to be removed")
     public void isTheTitleOfTheToDoListToBeRemoved(String arg0) throws IOException {
         JSONObject json = new JSONObject();
         json.put("title", arg0);
         APIInstance.post("/projects", json.toString());
     }
 
-    @When("the user posts a request to the server to remove a to do list {string}")
+    @When("the user posts a request to the server to remove a project {string}")
     public void theUserPostsARequestToTheServerToRemoveAToDoList(String arg0) throws IOException {
         JSONObject response = APIInstance.send("GET", "/projects?title=" + arg0);
         if (response.getJSONArray("projects").length() != 0) {
@@ -34,7 +34,7 @@ public class RemoveProjectDefinition {
         }
     }
 
-    @Then("the to do list with {string} will no longer be in the schedule")
+    @Then("the project with {string} will no longer exist")
     public void theToDoListWillNoLongerBeInTheSchedule(String arg0) throws IOException {
         JSONObject response = APIInstance.send("GET", "/projects?title=" + arg0);
         try {
@@ -47,8 +47,8 @@ public class RemoveProjectDefinition {
         }
     }
 
-    @And("{string} is the title of the category related to the to do list {string}")
-    public void isTheTitleOfTheCategoryRelatedToTheToDoList(String arg0, String arg1) throws IOException {
+    @And("{string} is the title of the project related to the to do list {string}")
+    public void isTheTitleOfTheCategoryRelatedToTheToDoList(String arg0, String arg1) throws  IOException{
         JSONObject response = APIInstance.send("GET", "/projects?title=" + arg1);
 
         JSONObject jsonCat = new JSONObject();
