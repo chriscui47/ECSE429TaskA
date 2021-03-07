@@ -1,5 +1,7 @@
 Feature: As a user, I want to add a new category
 
+  Background:
+    Given the Todo API server is running
   Scenario Outline: Adding a new category title to categories list (Normal Flow)
     Given there exists 2 categories
     When I add a new category with the title "<categoryTitle>"
