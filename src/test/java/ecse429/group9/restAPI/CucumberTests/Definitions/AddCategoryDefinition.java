@@ -1,6 +1,7 @@
 package ecse429.group9.restAPI.CucumberTests.Definitions;
 
 import ecse429.group9.restAPI.APIInstance;
+import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -10,8 +11,13 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-public class AddCategory {
-    @Given("there exists 2 categories")
+public class AddCategoryDefinition {
+    @Given("the add category API server is running")
+    public void the_Todo_API_server_is_running(){
+        APIInstance.runApplication();
+    }
+
+    @Given("there exists 2 categories for add category")
     public void thereExistsTwoCategories() throws IOException {
         JSONObject response = APIInstance.request("GET", "/categories");
         assertEquals(2, response.getJSONArray("categories").length());
@@ -75,4 +81,8 @@ public class AddCategory {
         Thread.sleep(500);
     }
 
+    @After
+    public void shutdown(){
+        APIInstance.killInstance();
+    }
 }

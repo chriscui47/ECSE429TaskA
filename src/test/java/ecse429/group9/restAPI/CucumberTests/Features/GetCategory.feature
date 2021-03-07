@@ -1,9 +1,10 @@
 Feature: As a user, I want to get a category
-
+  Background:
+    Given the get category API server is running
   Scenario Outline: Get a category with category id (Normal Flow)
-    Given there are 2 categories
+    Given there exists 2 categories for get category
     When I get a category with id "<id>" and title "<categoryTitle>"
-    Then there are 2 categories
+    Then there exists 2 categories for get category
 
     Examples:
       | id  | categoryTitle |
@@ -11,9 +12,9 @@ Feature: As a user, I want to get a category
       | 2   | Home          |
 
   Scenario Outline: Get a category with category name (Alternate Flow)
-    Given there are 2 categories
+    Given there exists 2 categories for get category
     When I get a category with title "<categoryTitle>"
-    Then there are 2 categories
+    Then there exists 2 categories for get category
 
     Examples:
       | categoryTitle |
@@ -21,9 +22,9 @@ Feature: As a user, I want to get a category
       | Home          |
 
   Scenario Outline: Get a category with invalid category id (ErrorFlow)
-    Given there are 2 categories
+    Given there exists 2 categories for get category
     When I get a category with invalid id "<id>" with title "<categoryTitle>"
-    Then there are 2 categories
+    Then there exists 2 categories for get category
 
     Examples:
       | id    | categoryTitle |
