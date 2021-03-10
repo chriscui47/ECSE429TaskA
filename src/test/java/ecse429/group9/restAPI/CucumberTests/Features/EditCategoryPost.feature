@@ -1,6 +1,7 @@
 Feature: As a user, I want to use the POST method to edit a category
   Background:
-    Given the edit category POST API server is running
+    Given the Todo API server is running
+    Then the user can access the Task Manager
   Scenario Outline: Editing a category's title (Normal Flow)
     Given there exists a new category with title "<categoryTitle>" with POST
     When I change a category with title "<categoryTitle>" to "<newCategoryTitle>" with POST

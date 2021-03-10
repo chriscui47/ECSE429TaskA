@@ -11,11 +11,6 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 public class GetCategoryDefinition {
-    @Given("the get category API server is running")
-    public void the_Todo_API_server_is_running(){
-        APIInstance.runApplication();
-    }
-
     @Given("there exists 2 categories for get category")
     public void thereExistsTwoCategories() throws IOException {
         JSONObject response = APIInstance.request("GET", "/categories");
@@ -44,10 +39,5 @@ public class GetCategoryDefinition {
     public void iGetACategoryWithInvalidIdWithTitle(String categoryID, String categoryTitle) throws IOException {
         JSONObject response = APIInstance.request("GET", "/categories/" + categoryID);
         assertEquals(null, response);
-    }
-
-    @After
-    public void shutdown(){
-        APIInstance.killInstance();
     }
 }

@@ -1,6 +1,7 @@
 Feature: As a user, I want to get a category
   Background:
-    Given the get category API server is running
+    Given the Todo API server is running
+    Then the user can access the Task Manager
   Scenario Outline: Get a category with category id (Normal Flow)
     Given there exists 2 categories for get category
     When I get a category with id "<id>" and title "<categoryTitle>"

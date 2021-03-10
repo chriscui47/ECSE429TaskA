@@ -1,8 +1,8 @@
 Feature: As a user, I want to add an existing category to an existing todo.
 
   Background:
-    Given an instance of the Todo API server is running
-    Then the user can access the Todo manager
+    Given the Todo API server is running
+    Then the user can access the Task Manager
 
   Scenario Outline: Adding an existing category to an existing todo (Normal Flow)
     Given there exists 2 categories and 2 todo

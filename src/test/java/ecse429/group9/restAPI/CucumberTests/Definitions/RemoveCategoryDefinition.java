@@ -12,11 +12,6 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 public class RemoveCategoryDefinition {
-    @Given("the remove category API server is running")
-    public void the_Todo_API_server_is_running(){
-        APIInstance.runApplication();
-    }
-
     @Given("there exists a new category {string}")
     public void thereExistsNewCategoryTitle(String categoryTitle) throws IOException, InterruptedException {
         String option = "/categories";
@@ -90,10 +85,5 @@ public class RemoveCategoryDefinition {
 
         APIInstance.request("DELETE", "/categories/" + categoryID);
         Thread.sleep(500);
-    }
-
-    @After
-    public void shutdown(){
-        APIInstance.killInstance();
     }
 }

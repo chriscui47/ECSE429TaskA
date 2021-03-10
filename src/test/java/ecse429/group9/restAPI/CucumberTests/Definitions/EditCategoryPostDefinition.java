@@ -12,11 +12,6 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 public class EditCategoryPostDefinition {
-    @Given("the edit category POST API server is running")
-    public void the_Todo_API_server_is_running(){
-        APIInstance.runApplication();
-    }
-
     @Given("there exists 2 categories for edit category POST")
     public void thereExistsTwoCategories() throws IOException {
         JSONObject response = APIInstance.request("GET", "/categories");
@@ -107,10 +102,5 @@ public class EditCategoryPostDefinition {
     public void theCategoryWithIdWillNotHaveAsTitle(String categoryID, String categoryTitle) throws IOException {
         JSONObject response = APIInstance.send("GET","/categories/" + categoryID);
         assertEquals(null, response);
-    }
-
-    @After
-    public void shutdown(){
-        APIInstance.killInstance();
     }
 }

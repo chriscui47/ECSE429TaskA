@@ -1,6 +1,7 @@
 Feature: As a user, I want to add a new category
   Background:
-    Given the add category API server is running
+    Given the Todo API server is running
+    Then the user can access the Task Manager
   Scenario Outline: Adding a new category title to categories list (Normal Flow)
     Given there exists 2 categories for add category
     When I add a new category with the title "<categoryTitle>"
