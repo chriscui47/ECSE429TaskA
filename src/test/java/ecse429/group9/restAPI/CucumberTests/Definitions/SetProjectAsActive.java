@@ -75,6 +75,8 @@ public class SetProjectAsActive {
         assertEquals(error, errorCode);
     }
 
+
+    /*
     @After
     public void clear() throws IOException {
         // Remove all todos.
@@ -100,5 +102,5 @@ public class SetProjectAsActive {
             String id = array.getJSONObject(i).getString("id");
             APIInstance.send("DELETE", "/categories/" + id);
         }
-    }
+    }*/
 }

@@ -85,6 +85,7 @@ public class SetProjectAsCompletedDefinition {
         assertEquals(error, errorCode);
     }
 
+    /*
     @After
     public void clear() throws IOException {
         // Remove all todos.
@@ -110,5 +111,5 @@ public class SetProjectAsCompletedDefinition {
             String id = array.getJSONObject(i).getString("id");
             APIInstance.send("DELETE", "/categories/" + id);
         }
-    }
+    }*/
 }

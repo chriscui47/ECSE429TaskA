@@ -1,7 +1,7 @@
 Feature: a student, I remove a project that I no longer need to do, to declutter my schedule.
 
   Background:
-    Given the Todo API server is running
+    Given the Todo API server is running 1
 
   Scenario Outline: Remove a project (Normal Flow)
     Given "<title>" is the title of the project to be removed

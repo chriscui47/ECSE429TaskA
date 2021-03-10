@@ -2,7 +2,7 @@ Feature:
   As a student, I create a project,
   so that I can organize my work
   Background:
-    Given the Todo API server is running
+    Given the Todo API server is running 1
   Scenario Outline: Creating a new project (Normal Flow)
     Given "<projectTitle>" is the title of the project
     Given "<projectDescription>" is the description of the project

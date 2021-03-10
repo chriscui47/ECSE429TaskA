@@ -19,11 +19,12 @@ public class CreateProjectDefinition {
     public static JSONObject json = null;
     public static boolean error = false;
 
-    @Given("the Todo API server is running")
+    @Given("the Todo API server is running 1")
     public void the_Todo_API_server_is_running(){
         APIInstance.runApplication();
         json = new JSONObject();
     }
+
 
     @Given("{string} is the title of the project")
     public void is_the_title_of_the_class(String title){
@@ -119,11 +120,11 @@ public class CreateProjectDefinition {
         // assuming we aren't supposed to be able to create a project without a title.
         assertEquals(true, error);
     }
-
+    /*
     @After
     public void shutdown(){
         APIInstance.killInstance();
         error = false;
     }
-
+    */
 }
