@@ -16,16 +16,16 @@ Feature: As a user, I want to filter a Todo list so that I can track specific ta
       | Attend Lecture | false       | Sleep   | true        | true   |
 
 
-  Scenario Outline: Filter a Todo list using a specific title (Alternate Flow)
-    Given a Todo with title "<title>" exists
-    When the user wants to filter for "<title>" todos
-    Then Todos will be filtered by title "<title>"
+  Scenario Outline: Filter a Todo list using a specific description (Alternate Flow)
+    Given a Todo with title "<title>" and "<description>" exists
+    When the user wants to filter for todos with description "<description>"
+    Then Todos will be filtered by description "<description>"
 
     Examples:
-      | title          |
-      | Homework       |
-      | Study          |
-      | Attend Lecture |
+      | title          | description                    |
+      | Homework       | Complete homework for tomorrow |
+      | Study          | Preparation for the exam       |
+      | Attend Lecture | Join Zoom lecture              |
 
   Scenario Outline: Filter a Todo list using invalid URL Query Parameters (Error flow)
     Given a Todo with title "<title>" exists

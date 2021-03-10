@@ -50,6 +50,28 @@ public class SearchTodoDefinition {
                 prevCount + 2, currCount);
     }
 
+    @Given("a Todo with title {string} and {string} exists")
+    public void createATodoWithDescriptionToFilter(String title, String description)
+            throws IOException, InterruptedException {
+        CommonDefinition.json.put("title", title);
+        CommonDefinition.json.put("description", description);
+
+        //GET all todos before the POST request and count them
+        prevCount = requireNonNull(APIInstance.request("GET", "/todos"))
+                .getJSONArray("todos").length();
+
+        //Send POST Requests
+        APIInstance.post("/todos", CommonDefinition.json.toString());
+        sleep(500);
+
+        //GET all todos after the POST request and count them
+        int currCount = requireNonNull(APIInstance.send("GET", "/todos"))
+                .getJSONArray("todos").length();
+
+        assertEquals("Error: Failed to create the Todo instance with title: "+ title +"",
+                prevCount + 1, currCount);
+    }
+
     @Given("a Todo with title {string} exists")
     public void createATodoToFilter(String title) throws IOException, InterruptedException {
         CommonDefinition.json.put("title", title);
@@ -79,13 +101,13 @@ public class SearchTodoDefinition {
         filterEndpoint = "/todos?doneStatus=" + filter;
     }
 
-    @When("the user wants to filter for {string} todos")
-    public void makeTitleFilterEndpoint(String title) throws IOException, InterruptedException {
+    @When("the user wants to filter for todos with description {string}")
+    public void makeTitleFilterEndpoint(String description) throws IOException, InterruptedException {
 
         //The title will have the white spaces replaced with %20 to become a URL Query Parameter to filter
-        String filter = title.replaceAll(" ", "%20");
+        String filter = description.replaceAll(" ", "%20");
         //Filter added at the endpoint of the URL Query parameters.
-        filterEndpoint = "/todos?title=" + filter;
+        filterEndpoint = "/todos?description=" + filter;
     }
 
     @When("the user wants to filter for {string} todos using an invalid URL Query")
@@ -130,8 +152,8 @@ public class SearchTodoDefinition {
     }
 
     //Alternate flow operations
-    @Then("Todos will be filtered by title {string}")
-    public void filterTitle(String title) throws IOException {
+    @Then("Todos will be filtered by description {string}")
+    public void filterTitle(String description) throws IOException {
 
         //GET Request using the filter
         JSONObject response = APIInstance.request("GET", filterEndpoint);
@@ -146,11 +168,11 @@ public class SearchTodoDefinition {
             //Loops for each filtered Todos instance
             for (int i = 0; i < response.getJSONArray("todos").length(); i++) {
                 //Extract the 'doneStatus' of the Todos
-                String filteredTitle = response.getJSONArray("todos").getJSONObject(i).getString("title");
+                String filteredDescription = response.getJSONArray("todos").getJSONObject(i).getString("description");
 
                 //Validate that the completion status of each filtered todos matches the expected filter
                 assertEquals("Error: The Todo list was not properly filtered using the filter: " +
-                        "title = \""+ title +"\"", title, filteredTitle);
+                        "description = \""+ description +"\"", description, filteredDescription);
             }
         }
     }
