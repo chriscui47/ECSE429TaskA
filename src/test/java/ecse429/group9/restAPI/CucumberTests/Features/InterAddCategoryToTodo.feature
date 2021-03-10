@@ -1,5 +1,8 @@
 Feature: As a user, I want to add an existing category to an existing todo.
 
+  Background:
+    Given the add category API server is running
+
   Scenario Outline: Adding an existing category to an existing todo (Normal Flow)
     Given there exists 2 categories and 2 todo
     When I add an category with the id "<categoryId>" to an todo with the id "<todoId>"

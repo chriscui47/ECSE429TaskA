@@ -1,5 +1,8 @@
 Feature: As a user, I want to see which category does this todo belong to.
 
+  Background:
+    Given the add category API server is running
+
   Scenario Outline: Getting the category of a todo (Normal Flow)
     Given The todo "<todoId>" has at least 1 category "<categoryId>"
     When I get the category "<categoryId>" of the todo "<todoId>"

@@ -1,5 +1,8 @@
 Feature: As a user, I want to modify the information of a category of an existing todo.
 
+  Background:
+    Given the add category API server is running
+
   Scenario Outline: Modifying an existing category to an existing todo (Normal Flow)
     Given The todo "<todoId>" has at least one category "<categoryId>"
     When I modify the description "<description>" with the id "<categoryId>" to an todo with the id "<todoId>"

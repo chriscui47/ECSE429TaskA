@@ -1,5 +1,8 @@
 Feature: As a user, I want to add an existing category to an existing project.
 
+  Background:
+    Given the add category API server is running
+
   Scenario Outline: Adding an existing category to an existing project (Normal Flow)
     Given there exists 2 categories and 1 project
     When I add an category with the id "<categoryId>" to an project with the id "<projectId>"
