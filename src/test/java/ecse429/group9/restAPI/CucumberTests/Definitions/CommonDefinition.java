@@ -19,14 +19,14 @@ public class CommonDefinition {
     public static JSONObject json = null;
 
     //Background operation definitions
-    @Given("an instance of the Todo API server is running")
+    @Given("the Todo API server is running")
     public void the_Todo_API_server_is_running() {
         APIInstance.runApplication();
     }
-    @Then("the user can access the Todo manager")
+    @Then("the user can access the Task Manager")
     public void the_Todo_API_can_be_used() throws IOException {
         if (APIInstance.getStatusCode("/todos") != 200) {
-            fail("Error: API server not running.");
+            fail("Error: The API server not running.");
         } else {
             json = new JSONObject();
         }

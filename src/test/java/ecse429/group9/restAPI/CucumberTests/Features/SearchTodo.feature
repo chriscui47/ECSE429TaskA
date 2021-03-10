@@ -1,8 +1,8 @@
 Feature: As a user, I want to filter a Todo list so that I can track specific tasks
 
   Background:
-    Given an instance of the Todo API server is running
-    Then the user can access the Todo manager
+    Given the Todo API server is running
+    Then the user can access the Task Manager
 
   Scenario Outline: Filter a Todo list using the completion status (Normal Flow)
     Given Todos "<title1>" and "<title2>" with the completion statuses "<doneStatus1>" and "<doneStatus2>" exist

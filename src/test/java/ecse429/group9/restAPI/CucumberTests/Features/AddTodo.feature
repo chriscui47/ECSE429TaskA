@@ -1,8 +1,8 @@
 Feature: As a user, I want to create a Todo so that I can track my tasks
 
   Background:
-    Given an instance of the Todo API server is running
-    Then the user can access the Todo manager
+    Given the Todo API server is running
+    Then the user can access the Task Manager
 
   Scenario Outline: Create a new Todo with a title, a 'doneStatus' and a description (Normal Flow)
     Given "<title>" is the title of the new Todo

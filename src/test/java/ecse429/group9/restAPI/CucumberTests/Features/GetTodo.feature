@@ -1,8 +1,8 @@
 Feature: As a user, I want to retrieve a Todo so that I can view a task
 
   Background:
-    Given an instance of the Todo API server is running
-    Then the user can access the Todo manager
+    Given the Todo API server is running
+    Then the user can access the Task Manager
 
   Scenario Outline: Retrieve a Todo using it's ID (Normal Flow)
     Given "<title>" is the title of an existing Todo

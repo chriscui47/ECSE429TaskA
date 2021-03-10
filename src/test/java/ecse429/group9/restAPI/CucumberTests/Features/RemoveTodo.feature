@@ -1,8 +1,8 @@
 Feature: As a user, I want to remove a Todo so that I do not track unnecessary tasks
 
   Background:
-    Given an instance of the Todo API server is running
-    Then the user can access the Todo manager
+    Given the Todo API server is running
+    Then the user can access the Task Manager
 
   Scenario Outline: Remove an existing Todo with a valid ID (Normal Flow)
     Given "<title>" is the title of a Todo that needs to be removed

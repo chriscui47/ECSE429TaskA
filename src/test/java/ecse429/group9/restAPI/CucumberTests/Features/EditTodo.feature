@@ -1,8 +1,8 @@
 Feature: As a user, I want to modify a Todo so that I can update my tasks
 
   Background:
-    Given an instance of the Todo API server is running
-    Then the user can access the Todo manager
+    Given the Todo API server is running
+    Then the user can access the Task Manager
 
   Scenario Outline: Overwrite the title and description of an existing Todo (Normal Flow)
     Given the "<title>" Todo with description "<description>" exists
