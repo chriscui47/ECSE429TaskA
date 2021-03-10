@@ -1,7 +1,8 @@
 Feature: As a user, I want to modify the information of a category of an existing todo.
 
   Background:
-    Given the add category API server is running
+    Given an instance of the Todo API server is running
+    Then the user can access the Todo manager
 
   Scenario Outline: Modifying an existing category to an existing todo (Normal Flow)
     Given The todo "<todoId>" has at least one category "<categoryId>"

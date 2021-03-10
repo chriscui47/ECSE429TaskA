@@ -1,7 +1,8 @@
 Feature: As a user, I want to add an existing category to an existing project.
 
   Background:
-    Given the add category API server is running
+    Given an instance of the Todo API server is running
+    Then the user can access the Todo manager
 
   Scenario Outline: Adding an existing category to an existing project (Normal Flow)
     Given there exists 2 categories and 1 project
