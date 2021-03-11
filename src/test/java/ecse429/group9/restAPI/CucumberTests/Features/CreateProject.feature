@@ -23,15 +23,15 @@ Feature:
     When the user creates a project for a class
     Then a project with "<projectTitle>" will be created
     Examples:
-      | projectTitle | projectDescription | projectActiveStatus|
-      | Today        |    hallo         |True                    |
-      | General      |    goodbye       |True                    |
-      | Today        |    yessir         |True                   |
+      | projectTitle | projectDescription | projectActiveStatus |
+      | Today        |    hallo           | True                |
+      | General      |    goodbye         | True                |
+      | Today        |    yessir          | True                |
 
   Scenario Outline: Creating project with id
     Given "<id>" is the id of the project
     When the user creates a project for a class
     Then there exists 0 projects
     Examples:
-      |  id|
-      |  1    |
+      | id |
+      | 1  |

@@ -18,8 +18,6 @@ public class InterAddCategoryToProjectDefinition {
         assertEquals(2, response_cat.getJSONArray("categories").length());
         JSONObject response_project = APIInstance.request("GET", "/projects");
         assertEquals(1, response_project.getJSONArray("projects").length());
-
-        Thread.sleep(500);
     }
 
     @When("I add an category with the id {string} to an project with the id {string}")
@@ -29,7 +27,6 @@ public class InterAddCategoryToProjectDefinition {
         JSONObject json = new JSONObject();
         json.put("id", catId);
         APIInstance.post(option, json.toString());
-
         Thread.sleep(500);
     }
 
@@ -46,7 +43,6 @@ public class InterAddCategoryToProjectDefinition {
                 assertEquals(catIdStr, value.getJSONArray("categories").getJSONObject(1).getString("id"));
             }
         }
-        Thread.sleep(500);
     }
 
     @Given("there exists at least 1 category and 1 project, this project {string} already has this category {string}")
@@ -57,29 +53,28 @@ public class InterAddCategoryToProjectDefinition {
         json.put("id", catIdStr);
         APIInstance.post(url, json.toString());
 
+        Thread.sleep(500);
+
         JSONObject value = APIInstance.request("GET", url);
 
-        assertEquals(2, value.getJSONArray("categories").length());
+        assertEquals(1, value.getJSONArray("categories").length());
         if (value.getJSONArray("categories").getJSONObject(0).getString("id").equals(catIdStr)) {
             assertEquals(catIdStr, value.getJSONArray("categories").getJSONObject(0).getString("id"));
         } else {
             assertEquals(catIdStr, value.getJSONArray("categories").getJSONObject(1).getString("id"));
         }
-
-        Thread.sleep(500);
     }
 
     @Then("the category {string} is still assigned to this project {string}")
     public void catStillAssigned(String catIdStr, String projectId) throws IOException, InterruptedException {
         String url = "/projects/" + projectId + "/categories";
         JSONObject value = APIInstance.request("GET", url);
-        assertEquals(2, value.getJSONArray("categories").length());
+        assertEquals(1, value.getJSONArray("categories").length());
         if (value.getJSONArray("categories").getJSONObject(0).getString("id").equals(catIdStr)) {
             assertEquals(catIdStr, value.getJSONArray("categories").getJSONObject(0).getString("id"));
         } else {
             assertEquals(catIdStr, value.getJSONArray("categories").getJSONObject(1).getString("id"));
         }
-        Thread.sleep(500);
     }
 
     @Given("there exists at least 1 project {string}")
@@ -90,5 +85,4 @@ public class InterAddCategoryToProjectDefinition {
         assertTrue("Test failed because the Project instance was not found and the GET response was null. " +
                 "The given endpoint needs to be valid.",response != null);
     }
-
 }

@@ -20,8 +20,6 @@ public class InterAddCategoryToToDoDefinition {
         assertEquals(2, response_cat.getJSONArray("categories").length());
         JSONObject response_todo = APIInstance.request("GET", "/todos");
         assertEquals(2, response_todo.getJSONArray("todos").length());
-
-        Thread.sleep(500);
     }
 
     @When("I add an category with the id {string} to an todo with the id {string}")
@@ -31,22 +29,17 @@ public class InterAddCategoryToToDoDefinition {
         JSONObject json = new JSONObject();
         json.put("id", catId);
         APIInstance.post(option, json.toString());
-
         Thread.sleep(500);
     }
 
     @Given("there exists at least 1 category and 1 todo, this todo {string} already has this category {string}")
-    public void alreadyHasThisCat(String catIdStr, String todoId) throws IOException, InterruptedException {
+    public void alreadyHasThisCat(String todoId, String catIdStr) throws IOException, InterruptedException {
         String url = "/todos/" + todoId + "/categories";
         JSONObject value = APIInstance.request("GET", url);
-        assertEquals(2, value.getJSONArray("categories").length());
-        if (value.getJSONArray("categories").getJSONObject(0).getString("id").equals(catIdStr)) {
-            assertEquals(catIdStr, value.getJSONArray("categories").getJSONObject(0).getString("id"));
-        } else {
-            assertEquals(catIdStr, value.getJSONArray("categories").getJSONObject(1).getString("id"));
-        }
 
-        Thread.sleep(500);
+        assertEquals(1, value.getJSONArray("categories").length());
+
+        assertEquals(catIdStr, value.getJSONArray("categories").getJSONObject(0).getString("id"));
     }
 
     @Then("the category {string} is still assigned to this todo {string}")
@@ -55,7 +48,6 @@ public class InterAddCategoryToToDoDefinition {
         JSONObject value = APIInstance.request("GET", url);
         assertEquals(1, value.getJSONArray("categories").length());
         assertEquals(catIdStr, value.getJSONArray("categories").getJSONObject(0).getString("id"));
-        Thread.sleep(500);
     }
 
     @Given("there exists at least 1 todo {string}")
@@ -72,7 +64,6 @@ public class InterAddCategoryToToDoDefinition {
         String url = "/categories/" + catId;
         JSONObject value = APIInstance.request("GET", url);
         assertEquals(null, value);
-        Thread.sleep(500);
     }
 
     @Then("there will be a new category with id {string} to {string}")
@@ -88,7 +79,5 @@ public class InterAddCategoryToToDoDefinition {
                 assertEquals(catIdStr, value.getJSONArray("categories").getJSONObject(1).getString("id"));
             }
         }
-        Thread.sleep(500);
     }
-
 }

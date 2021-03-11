@@ -19,7 +19,9 @@ public class InterEditCategoryOfToDoDefinition {
 
         JSONObject json = new JSONObject();
         json.put("id", catId);
+
         APIInstance.post(option, json.toString());
+        Thread.sleep(500);
 
         JSONObject value = APIInstance.request("GET", option);
 
@@ -32,9 +34,6 @@ public class InterEditCategoryOfToDoDefinition {
                 assertEquals(catId, value.getJSONArray("categories").getJSONObject(1).getString("id"));
             }
         }
-
-        Thread.sleep(500);
-
     }
 
     @When("I modify the description {string} with the id {string} to an todo with the id {string}")
@@ -47,21 +46,22 @@ public class InterEditCategoryOfToDoDefinition {
             JSONObject json = new JSONObject();
             json.put("description", description);
             APIInstance.post(option, json.toString());
+            Thread.sleep(500);
         } else {
             if (value.getJSONArray("categories").getJSONObject(0).getString("id").equals(catId)) {
                 String option = "/categories/" + catId;
                 JSONObject json = new JSONObject();
                 json.put("description", description);
                 APIInstance.post(option, json.toString());
+                Thread.sleep(500);
             } else {
                 String option = "/categories/" + catId;
                 JSONObject json = new JSONObject();
                 json.put("description", description);
                 APIInstance.post(option, json.toString());
+                Thread.sleep(500);
             }
         }
-
-        Thread.sleep(500);
     }
 
     @Then("the description of the category {string} of {string} will change to {string}")
@@ -78,11 +78,7 @@ public class InterEditCategoryOfToDoDefinition {
                 assertEquals(description, value.getJSONArray("categories").getJSONObject(1).getString("description"));
             }
         }
-
-        Thread.sleep(500);
     }
-
-    // 2
 
     @Given("The todo {string} has at least one category {string}, and it has a description {string}")
     public void catHasDescription(String todoId, String catId, String description) throws IOException, InterruptedException {
@@ -91,6 +87,7 @@ public class InterEditCategoryOfToDoDefinition {
         JSONObject json = new JSONObject();
         json.put("id", catId);
         APIInstance.post(option, json.toString());
+        Thread.sleep(500);
 
         JSONObject value = APIInstance.request("GET", option);
 
@@ -109,8 +106,6 @@ public class InterEditCategoryOfToDoDefinition {
                 assertEquals(description, value.getJSONArray("categories").getJSONObject(1).getString("description"));
             }
         }
-
-        Thread.sleep(500);
     }
 
     @When("I modify the description {string} with the id {string} that does not exist to an todo with the id {string}")
@@ -136,8 +131,5 @@ public class InterEditCategoryOfToDoDefinition {
                 APIInstance.post(option, json.toString());
             }
         }
-
-        Thread.sleep(500);
     }
-
 }
