@@ -5,6 +5,7 @@ Feature: a student, I remove a project that I no longer need to do, to declutter
 
   Scenario Outline: Remove a project (Normal Flow)
     Given "<title>" is the title of the project to be removed
+    When the user creates a project for a class
     When the user posts a request to the server to remove a project "<title>"
     Then the project with "<title>" will no longer exist
 

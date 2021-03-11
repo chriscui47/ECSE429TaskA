@@ -95,31 +95,4 @@ public class ModifyProjectDescriptionDefinition {
             assertEquals(true,true);
         }
     }
-    /*
-    @After
-    public void clear() throws IOException {
-        // Remove all todos.
-        JSONObject response = APIInstance.send("GET", "/projects");
-        JSONArray array = response.getJSONArray("projects");
-        for (int i=0; i<array.length(); i++){
-            String id = array.getJSONObject(i).getString("id");
-            APIInstance.send("DELETE", "/projects/" + id);
-        }
-
-        // Remove all projects.
-        response = APIInstance.send("GET", "/projects");
-        array = response.getJSONArray("projects");
-        for (int i=0; i<array.length(); i++){
-            String id = array.getJSONObject(i).getString("id");
-            APIInstance.send("DELETE", "/projects/" + id);
-        }
-
-        // Remove all categories.
-        response = APIInstance.send("GET", "/categories");
-        array = response.getJSONArray("categories");
-        for (int i=0; i<array.length(); i++){
-            String id = array.getJSONObject(i).getString("id");
-            APIInstance.send("DELETE", "/categories/" + id);
-        }
-    }*/
 }

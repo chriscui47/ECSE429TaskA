@@ -14,7 +14,7 @@ Feature:
       | projectTitle |projectDescription| projectActiveStatus|
       | Today        |    hallo         | True               |
       | General      |    goodbye       |False               |
-      | Today        |    yessir         |True               |
+      | Today        |     yessir         |True               |
 
   Scenario Outline: Creating a pre-existing project
     Given "<projectTitle>" is the title of the project

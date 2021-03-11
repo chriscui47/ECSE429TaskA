@@ -24,12 +24,12 @@ public class RemoveProjectDefinition {
     }
 
     @When("the user posts a request to the server to remove a project {string}")
-    public void theUserPostsARequestToTheServerToRemoveAToDoList(String arg0) throws IOException {
+    public void theUserPostsARequestToTheServerToRemoveAToDoList(String arg0) throws IOException, InterruptedException {
         JSONObject response = APIInstance.send("GET", "/projects?title=" + arg0);
         if (response.getJSONArray("projects").length() != 0) {
             String id = response.getJSONArray("projects").getJSONObject(0).getString("id");
-            System.out.println(id);
             APIInstance.send("DELETE", "/projects/" + id);
+            Thread.sleep(5000);
         } else {
             error = "404";
         }
@@ -75,31 +75,4 @@ public class RemoveProjectDefinition {
             assertEquals(true, true);
         }
     }
-    /*
-    @After
-    public void clear() throws IOException {
-        // Remove all todos.
-        JSONObject response = APIInstance.send("GET", "/todos");
-        JSONArray array = response.getJSONArray("todos");
-        for (int i = 0; i < array.length(); i++) {
-            String id = array.getJSONObject(i).getString("id");
-            APIInstance.send("DELETE", "/todos/" + id);
-        }
-
-        // Remove all projects.
-        response = APIInstance.send("GET", "/projects");
-        array = response.getJSONArray("projects");
-        for (int i = 0; i < array.length(); i++) {
-            String id = array.getJSONObject(i).getString("id");
-            APIInstance.send("DELETE", "/projects/" + id);
-        }
-
-        // Remove all categories.
-        response = APIInstance.send("GET", "/categories");
-        array = response.getJSONArray("categories");
-        for (int i = 0; i < array.length(); i++) {
-            String id = array.getJSONObject(i).getString("id");
-            APIInstance.send("DELETE", "/categories/" + id);
-        }
-    }*/
 }
