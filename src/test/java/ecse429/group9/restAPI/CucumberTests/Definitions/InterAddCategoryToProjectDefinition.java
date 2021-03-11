@@ -52,7 +52,13 @@ public class InterAddCategoryToProjectDefinition {
     @Given("there exists at least 1 category and 1 project, this project {string} already has this category {string}")
     public void alreadyHasThisCat(String catIdStr, String projectId) throws IOException, InterruptedException {
         String url = "/projects/" + projectId + "/categories";
+
+        JSONObject json = new JSONObject();
+        json.put("id", catIdStr);
+        APIInstance.post(url, json.toString());
+
         JSONObject value = APIInstance.request("GET", url);
+
         assertEquals(2, value.getJSONArray("categories").length());
         if (value.getJSONArray("categories").getJSONObject(0).getString("id").equals(catIdStr)) {
             assertEquals(catIdStr, value.getJSONArray("categories").getJSONObject(0).getString("id"));
