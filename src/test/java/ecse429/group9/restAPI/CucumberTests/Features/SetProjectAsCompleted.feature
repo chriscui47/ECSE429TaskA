@@ -3,7 +3,7 @@ Feature: a student, I mark a project as completed on my course to do list, so I 
   Background:
     Given the Todo API server is running 1
 
-  Scenario Outline: mark a not done project as done (Normal Flow)
+  Scenario Outline: mark a not completed project as completed (Normal Flow)
     Given "<title>" is the title of the project
     Given "<prevCompletedStatus>" is the active state of the project
     When the user creates a project for a class
@@ -29,7 +29,7 @@ Feature: a student, I mark a project as completed on my course to do list, so I 
       | Assignment2 | true           | true           |
       | Quiz1       | true           | true           |
 
-  Scenario Outline: mark a non-existing task as done (Error Flow)
+  Scenario Outline: mark a non-existing project as done (Error Flow)
     Given no project with id "<id>" is registered in the API server
     When the user requests to mark the project "<id>" with a completed status "<completedStatus>"
     Then system will output an error with error code "<errorCode>"
