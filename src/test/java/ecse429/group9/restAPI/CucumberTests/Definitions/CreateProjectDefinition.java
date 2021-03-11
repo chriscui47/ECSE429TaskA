@@ -49,9 +49,10 @@ public class CreateProjectDefinition {
         }
         json.put("active", status);
     }
-    @Then("there exists 0 projects")
-    public void thereExistsTwoProjects() throws IOException {
-        JSONObject response = APIInstance.request("GET", "/projects");
+    @Then("there exists 0 projects for id {string}")
+    public void thereExistsTwoProjects(String id) throws IOException {
+        JSONObject response = APIInstance.send("GET", "/projects?id=" + id);
+        System.out.println(response);
         assertEquals(0, response.getJSONArray("projects").length());
     }
 
