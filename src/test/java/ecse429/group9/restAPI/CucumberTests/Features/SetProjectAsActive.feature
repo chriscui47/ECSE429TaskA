@@ -1,4 +1,4 @@
-Feature: a student, I mark a project as done on my course to do list, so I can track my schoolwork.
+Feature: As a student, I mark a project as done on my course to do list, so I can track my schoolwork.
 
   Background:
     Given the Todo API server is running 1

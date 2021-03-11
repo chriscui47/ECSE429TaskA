@@ -29,7 +29,7 @@ Feature: a student, I remove a project that I no longer need to do, to declutter
       | comp250 | house    |
       | ecse429 | camp  |
 
-  Scenario Outline: Change a description for a non-existent task (Error Flow)
+  Scenario Outline: Remove non existing project (Error Flow)
     Given the id of a non-existent to do list is "<id>"
     When the user posts a request to the server to remove a project "<title>"
     Then an error message "<message>" with "<id>" will occur
