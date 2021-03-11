@@ -9,10 +9,13 @@ Feature: a student, I remove a project that I no longer need to do, to declutter
     Then the project with "<title>" will no longer exist
 
     Examples:
-      | title   |
-      | comp250 |
-      | ecse429 |
-
+      | title   | titlecat |
+      | yolooooooo | camp  |
+      | comp250 | house    |
+      | ecse429 | camp  |
+      | comp250 | house    |
+      | ecse429 | camp  |
+      | ecse429 | camp  |
 
   Scenario Outline: Remove a project related to a category (Alternative Flow)
     Given "<title>" is the title of the project to be removed

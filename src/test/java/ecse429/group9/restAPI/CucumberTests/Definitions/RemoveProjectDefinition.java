@@ -28,6 +28,7 @@ public class RemoveProjectDefinition {
         JSONObject response = APIInstance.send("GET", "/projects?title=" + arg0);
         if (response.getJSONArray("projects").length() != 0) {
             String id = response.getJSONArray("projects").getJSONObject(0).getString("id");
+            System.out.println(id);
             APIInstance.send("DELETE", "/projects/" + id);
         } else {
             error = "404";
