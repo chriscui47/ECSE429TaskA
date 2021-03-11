@@ -1,6 +1,7 @@
 package ecse429.group9.restAPI.CucumberTests.Definitions;
 
 import ecse429.group9.restAPI.APIInstance;
+import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import org.json.JSONObject;
@@ -9,9 +10,9 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-public class GetCategory {
-    @Given("there are 2 categories")
-    public void thereAreTwoCategories() throws IOException {
+public class GetCategoryDefinition {
+    @Given("there exists 2 categories for get category")
+    public void thereExistsTwoCategories() throws IOException {
         JSONObject response = APIInstance.request("GET", "/categories");
         assertEquals(2, response.getJSONArray("categories").length());
     }
@@ -39,5 +40,4 @@ public class GetCategory {
         JSONObject response = APIInstance.request("GET", "/categories/" + categoryID);
         assertEquals(null, response);
     }
-
 }

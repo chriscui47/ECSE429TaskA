@@ -1,7 +1,7 @@
 Feature: As a student, I want to adjust project descriptions so that I can adjust my schedule as needed.
 
 Background:
-Given the Todo API server is running
+Given the Todo API server is running 1
 
 Scenario Outline: Change a project description (Normal Flow)
 Given the title of the project "<title>"

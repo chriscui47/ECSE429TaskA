@@ -8,7 +8,6 @@ import io.cucumber.junit.CucumberOptions;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         plugin = "pretty",
-        features = "src/test/java/ecse429/group9/restAPI/CucumberTests/Features",
-        glue = {"src/test/java/ecse429/group9/restAPI/CucumberTests/Definitions"})
+        features = "src/test/java/ecse429/group9/restAPI/CucumberTests/Features")
 public class CucumberRunner {
 }

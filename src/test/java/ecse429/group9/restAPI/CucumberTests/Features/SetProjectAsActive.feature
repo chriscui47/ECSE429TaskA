@@ -1,7 +1,7 @@
 Feature: a student, I mark a project as done on my course to do list, so I can track my schoolwork.
 
   Background:
-    Given the Todo API server is running
+    Given the Todo API server is running 1
 
   Scenario Outline: mark a not active project as active (Normal Flow)
     Given "<title>" is the title of the project

@@ -1,6 +1,7 @@
 package ecse429.group9.restAPI.CucumberTests.Definitions;
 
 import ecse429.group9.restAPI.APIInstance;
+import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -10,7 +11,13 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-public class EditCategoryPost {
+public class EditCategoryPostDefinition {
+    @Given("there exists 2 categories for edit category POST")
+    public void thereExistsTwoCategories() throws IOException {
+        JSONObject response = APIInstance.request("GET", "/categories");
+        assertEquals(2, response.getJSONArray("categories").length());
+    }
+
     @Given("there exists a new category with title {string} with POST")
     public void thereExistsANewCategoryWithTitleWithPOST(String categoryTitle) throws IOException, InterruptedException {
         String option = "/categories";
@@ -34,7 +41,7 @@ public class EditCategoryPost {
         Thread.sleep(500);
     }
 
-    @Then("there will be a new category with the title {string}")
+    @Then("there will be a new category with the title {string} with POST")
     public void thereWillBeANewCategoryWithTheTitle(String categoryTitle) throws IOException, InterruptedException {
         JSONObject response = APIInstance.send("GET", "/categories?title=" + categoryTitle);
         assertEquals(categoryTitle, response.getJSONArray("categories").getJSONObject(0).getString("title"));
@@ -68,7 +75,7 @@ public class EditCategoryPost {
     }
 
 
-    @Then("there will be a new category with the title {string} and description {string}")
+    @Then("there will be a new category with the title {string} and description {string} with POST")
     public void thereWillBeANewCategoryWithTheTitleAndDescription(String categoryTitle, String categoryDescription) throws IOException, InterruptedException {
         JSONObject response = APIInstance.send("GET", "/categories?title=" + categoryTitle);
         assertEquals(categoryDescription, response.getJSONArray("categories").getJSONObject(0).getString("description"));
@@ -91,7 +98,7 @@ public class EditCategoryPost {
     }
 
 
-    @Then("the category with id {string} will not have {string} as title")
+    @Then("the category with id {string} will not have {string} as title with POST")
     public void theCategoryWithIdWillNotHaveAsTitle(String categoryID, String categoryTitle) throws IOException {
         JSONObject response = APIInstance.send("GET","/categories/" + categoryID);
         assertEquals(null, response);
