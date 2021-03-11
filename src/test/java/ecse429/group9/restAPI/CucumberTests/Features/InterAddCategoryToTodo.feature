@@ -21,7 +21,7 @@ Feature: As a user, I want to add an existing category to an existing todo.
 
     Examples:
       | categoryId | todoId      |
-      | 1          | 2           |
+      | 1          | 1           |
 
   Scenario Outline: Adding a non existing category to an existing todo (ErrorFlow)
     Given there exists at least 1 todo "<todoId>"
