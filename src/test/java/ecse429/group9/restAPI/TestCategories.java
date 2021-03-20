@@ -16,8 +16,9 @@ public class TestCategories {
     }
 
     @Before
-    public void startInstance(){
+    public void startInstance() throws IOException {
         APIInstance.runApplication();
+        assertEquals(StatusCodes.SC_SUCCESS, APIInstance.getStatusCode(""));
     }
 
 
