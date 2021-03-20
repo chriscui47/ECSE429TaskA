@@ -14,7 +14,6 @@ Feature:
       | projectTitle |projectDescription| projectActiveStatus|
       | Today        |    hallo         | True               |
       | General      |    goodbye       |False               |
-      | Today        |     yessir         |True               |
 
   Scenario Outline: Creating a pre-existing project
     Given "<projectTitle>" is the title of the project
@@ -31,7 +30,7 @@ Feature:
   Scenario Outline: Creating project with id
     Given "<id>" is the id of the project
     When the user creates a project for a class
-    Then there exists 0 projects
+    Then there exists 0 projects for id "<id>"
     Examples:
       |  id|
-      |  1    |
+      |  999    |

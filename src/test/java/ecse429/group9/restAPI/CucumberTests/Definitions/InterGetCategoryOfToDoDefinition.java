@@ -23,6 +23,8 @@ public class InterGetCategoryOfToDoDefinition {
         json.put("id", catId);
         APIInstance.post(option, json.toString());
 
+        Thread.sleep(500);
+
         JSONObject value = APIInstance.request("GET", option);
 
         if (value.getJSONArray("categories").length() == 1) {
@@ -54,9 +56,6 @@ public class InterGetCategoryOfToDoDefinition {
                 assertEquals(catId, value.getJSONArray("categories").getJSONObject(1).getString("id"));
             }
         }
-
-        Thread.sleep(500);
-
     }
 
     @Then("The todo {string} still has at least 1 category {string}")
@@ -68,26 +67,25 @@ public class InterGetCategoryOfToDoDefinition {
         List<Integer> VALID_VALUES = Arrays.asList(1, 2);
 
         Assert.assertTrue(VALID_VALUES.contains(value.getJSONArray("categories").length()));
-
-        Thread.sleep(500);
-
     }
 
     @Given("The todo {string} has 2 categories")
     public void todoHasTwoCat(String todoId) throws IOException, InterruptedException {
         String option = "/todos/" + todoId + "/categories";
 
-        JSONObject json = new JSONObject();
-        json.put("id", 1);
-        json.put("id", 2);
-        APIInstance.post(option, json.toString());
+        JSONObject json1 = new JSONObject();
+        json1.put("id", "1");
+        APIInstance.post2(option, json1.toString());
+
+        JSONObject json2 = new JSONObject();
+        json2.put("id", "2");
+        APIInstance.post2(option, json2.toString());
+
+        Thread.sleep(500);
 
         JSONObject value = APIInstance.request("GET", option);
 
         assertEquals(2, value.getJSONArray("categories").length());
-
-        Thread.sleep(500);
-
     }
 
     @Then("The todo {string} still has 2 categories")
@@ -96,9 +94,6 @@ public class InterGetCategoryOfToDoDefinition {
         JSONObject value = APIInstance.request("GET", option);
 
         assertEquals(2, value.getJSONArray("categories").length());
-
-        Thread.sleep(500);
-
     }
 
     @When("I get the non existing category {string} of the todo {string}")
@@ -106,8 +101,5 @@ public class InterGetCategoryOfToDoDefinition {
         String option = "/todos/" + todoId + "/categories?id=" + catId;
         JSONObject value = APIInstance.request("GET", option);
         assertEquals(0, value.getJSONArray("categories").length());
-
-        Thread.sleep(500);
-
     }
 }

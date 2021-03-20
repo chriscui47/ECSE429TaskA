@@ -1,4 +1,4 @@
-Feature: As a user, I want to see which category does this todo belong to.
+Feature: As a user, I want to see which category this todo belongs to.
 
   Background:
     Given the Todo API server is running

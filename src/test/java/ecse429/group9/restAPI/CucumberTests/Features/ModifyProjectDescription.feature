@@ -4,18 +4,23 @@ Background:
 Given the Todo API server is running 1
 
 Scenario Outline: Change a project description (Normal Flow)
-Given the title of the project "<title>"
-When the user posts description change of project "<title>" to "<description>"
-Then the project "<title>" description will be changed to "<description>"
+  Given "<title>" is the title of the project
+  Given "<description>" is the description of the project
+  When the user creates a project for a class
+  When the user posts description change of project "<title>" to "<newdescription>"
+  Then the project "<title>" description will be changed to "<newdescription>"
 
-Examples:
-| title   | description                      |
-| comp250 | Introduction-to-Computer-Science |
-| ecse429 | Software-Validation              |
-| math240 | Discrete-Structures              |
+
+  Examples:
+    | title   | description                      | newdescription|
+    | comp250 | yiololoo |    Introduction-to-Computer Science           |
+    | ecse429 | Shlololol              |    Software-Validation            |
+    | math240 | toloo           |        Discrete-Structures       |
 
 Scenario Outline: Change a project description to same description it currently has (Alternative Flow)
-  Given the title of the project "<title>", the description "<description>"
+  Given "<title>" is the title of the project
+  Given "<description>" is the description of the project
+  When the user creates a project for a class
   When the user posts description change of project "<title>" to "<newdescription>"
   Then the project "<title>" description will be changed to "<newdescription>"
 

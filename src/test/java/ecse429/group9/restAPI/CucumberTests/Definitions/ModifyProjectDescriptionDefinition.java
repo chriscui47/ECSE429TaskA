@@ -35,15 +35,16 @@ public class ModifyProjectDescriptionDefinition {
     }
 
     @When("the user posts description change of project {string} to {string}")
-    public void theUserPostsDescriptionChangeOfTaskTo(String arg0, String arg1) throws IOException {
+    public void theUserPostsDescriptionChangeOfTaskTo(String arg0, String arg1) throws IOException, InterruptedException {
         JSONObject json = new JSONObject();
         JSONObject response = APIInstance.send("GET", "/projects?title=" + arg0);
 
         json.put("description", arg1);
         if (response.getJSONArray("projects").length() != 0) {
             String id = response.getJSONArray("projects").getJSONObject(0).getString("id");
-            System.out.println(id);
             APIInstance.post("/projects/" + id, json.toString());
+            Thread.sleep(500);
+
         } else {
             error = "404";
             System.out.println(error);
@@ -54,6 +55,7 @@ public class ModifyProjectDescriptionDefinition {
     @Then("the project {string} description will be changed to {string}")
     public void theTaskDescriptionWillBeChangedTo(String arg0, String arg1) throws IOException {
         JSONObject response = APIInstance.send("GET", "/projects?title=" + arg0);
+        System.out.println(response);
         String description = response.getJSONArray("projects").getJSONObject(0).getString("description");
         assertEquals(arg1, description);
     }
