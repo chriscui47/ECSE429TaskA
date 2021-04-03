@@ -1,8 +1,6 @@
 package ecse429.group9.restAPI.CucumberTests.Definitions;
 
 import ecse429.group9.restAPI.APIInstance;
-import ecse429.group9.restAPI.StatusCodes;
-import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

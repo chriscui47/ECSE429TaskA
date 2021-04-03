@@ -1,5 +1,7 @@
-package ecse429.group9.restAPI;
+package ecse429.group9.restAPI.JUnitTests;
 
+import ecse429.group9.restAPI.APIInstance;
+import ecse429.group9.restAPI.StatusCodes;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -63,6 +65,7 @@ public class TestCategories {
         APIInstance.request("DELETE", "/categories/4");
 
         Thread.sleep(500);
+
     }
 
     // case where id is also in json, which it should not be
