@@ -94,23 +94,23 @@ public class TestCategoriesPerformance {
 
     @Test
     public void addTest() throws IOException, InterruptedException {
-        FileWriter addCSVWriter = new FileWriter("categories_performance_add.csv");
-        addCSVWriter.write("Total number of categories,Transaction Time,Current Time MS\n");
+        FileWriter csvWriter = new FileWriter("categories_performance_add.csv");
+        csvWriter.write("Total number of categories,Transaction Time,Current Time MS\n");
 
         long transactionTime = 0;
 
         for (int i = 2; i < 10000; i++) {
             transactionTime = addIndividualCategory("sample title", "sample description");
-            addCSVWriter.write(i + "," + transactionTime + "," + System.currentTimeMillis() + "\n");
+            csvWriter.write(i + "," + transactionTime + "," + System.currentTimeMillis() + "\n");
         }
 
-        addCSVWriter.close();
+        csvWriter.close();
     }
 
     @Test
     public void changeTest() throws IOException, InterruptedException {
-        FileWriter addCSVWriter = new FileWriter("categories_performance_change.csv");
-        addCSVWriter.write("Total number of categories,Transaction Time,Current Time MS\n");
+        FileWriter csvWriter = new FileWriter("categories_performance_change.csv");
+        csvWriter.write("Total number of categories,Transaction Time,Current Time MS\n");
 
         long transactionTime = 0;
 
@@ -118,16 +118,16 @@ public class TestCategoriesPerformance {
             addIndividualCategory("sample title", "sample description");
 
             transactionTime = changeCategory("new title", "new description", 1);
-            addCSVWriter.write(i + "," + transactionTime + "," + System.currentTimeMillis() + "\n");
+            csvWriter.write(i + "," + transactionTime + "," + System.currentTimeMillis() + "\n");
         }
 
-        addCSVWriter.close();
+        csvWriter.close();
     }
 
     @Test
     public void deleteTest() throws IOException, InterruptedException {
-        FileWriter addCSVWriter = new FileWriter("categories_performance_delete.csv");
-        addCSVWriter.write("Total number of categories,Transaction Time,Current Time MS\n");
+        FileWriter csvWriter = new FileWriter("categories_performance_delete.csv");
+        csvWriter.write("Total number of categories,Transaction Time,Current Time MS\n");
 
         long transactionTime = 0;
 
@@ -135,10 +135,10 @@ public class TestCategoriesPerformance {
             addMultipleCategories("sample title", "sample description", i+1);
             transactionTime = deleteCategory(i-1);
 
-            addCSVWriter.write(i + "," + transactionTime + "," + System.currentTimeMillis() + "\n");
+            csvWriter.write(i + "," + transactionTime + "," + System.currentTimeMillis() + "\n");
         }
 
-        addCSVWriter.close();
+        csvWriter.close();
     }
 
 }
