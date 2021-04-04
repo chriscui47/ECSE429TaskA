@@ -35,10 +35,6 @@ public class TestCategoriesPerformance {
         json.put("description", description);
         int responseCode = APIInstance.post2(option, json.toString());
 
-        while (responseCode != 201) {
-            responseCode = APIInstance.post2(option, json.toString());
-        }
-
         return System.currentTimeMillis() - startTime;
     }
 
@@ -52,13 +48,7 @@ public class TestCategoriesPerformance {
         json.put("title", title);
         json.put("description", description);
 
-        for (int i = 0; i < targetSize - currentSize; i++) {
-            int responseCode = APIInstance.post2(option, json.toString());
-
-            while (responseCode != 201) {
-                responseCode = APIInstance.post2(option, json.toString());
-            }
-        }
+        int responseCode = APIInstance.post2(option, json.toString());
     }
 
     public static long changeCategory(String title, String description, int id) throws IOException, InterruptedException {
@@ -71,10 +61,6 @@ public class TestCategoriesPerformance {
         json.put("description", description);
         int responseCode = APIInstance.post2(option, json.toString());
 
-        while (responseCode != 200) {
-            responseCode = APIInstance.post2(option, json.toString());
-        }
-
         return System.currentTimeMillis() - startTime;
     }
 
@@ -84,10 +70,6 @@ public class TestCategoriesPerformance {
         String option = "/categories/" + id;
 
         int responseCode = APIInstance.getStatusCode("DELETE", option);
-
-        while (responseCode != 200 && responseCode != 204) {
-            responseCode = APIInstance.getStatusCode("DELETE", option);
-        }
 
         return System.currentTimeMillis() - startTime;
     }
@@ -99,7 +81,7 @@ public class TestCategoriesPerformance {
 
         long transactionTime = 0;
 
-        for (int i = 2; i < 10000; i++) {
+        for (int i = 2; i < 1000; i++) {
             transactionTime = addIndividualCategory("sample title", "sample description");
             csvWriter.write(i + "," + transactionTime + "," + System.currentTimeMillis() + "\n");
         }
@@ -114,7 +96,7 @@ public class TestCategoriesPerformance {
 
         long transactionTime = 0;
 
-        for (int i = 2; i < 10000; i++) {
+        for (int i = 2; i < 1000; i++) {
             addIndividualCategory("sample title", "sample description");
 
             transactionTime = changeCategory("new title", "new description", 1);
@@ -131,7 +113,7 @@ public class TestCategoriesPerformance {
 
         long transactionTime = 0;
 
-        for (int i = 2; i < 10000; i++) {
+        for (int i = 2; i < 1000; i++) {
             addMultipleCategories("sample title", "sample description", i+1);
             transactionTime = deleteCategory(i-1);
 
