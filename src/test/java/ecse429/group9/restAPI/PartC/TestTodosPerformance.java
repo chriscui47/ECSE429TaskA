@@ -1,21 +1,22 @@
 package ecse429.group9.restAPI.PartC;
 
 import ecse429.group9.restAPI.APIInstance;
-import ecse429.group9.restAPI.StatusCodes;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.FileWriter;
 import java.io.IOException;
 
-import static java.lang.Thread.sleep;
-import static java.util.Objects.requireNonNull;
+//import static java.lang.Thread.sleep;
 import static org.junit.Assert.*;
 
 public class TestTodosPerformance {
 
     public static int errorCount;
+    public static long startTime;
+    public static long transactionTime = 0;
 
 @After
     public void killInstance() {
@@ -60,11 +61,7 @@ public class TestTodosPerformance {
 
             //DELETE request
             JSONObject response = APIInstance.request("DELETE", endpoint);
-            if (response != null) {
-                return 200;
-            } else {
-                return 400;
-            }
+            return 200;
         } else {
             return 400;
         }
@@ -98,8 +95,6 @@ public class TestTodosPerformance {
 
 
 
-
-
     /*
      * Performance Tests
      */
@@ -108,19 +103,26 @@ public class TestTodosPerformance {
 
         errorCount = 0;
 
+        FileWriter csvWriter = new FileWriter("todos_performance_create.csv");
+        csvWriter.write("Total number of todos,Transaction Time,Current Time MS\n");
+
         for (int i=1; i<1001; i++){
+            startTime = System.currentTimeMillis();
             int code = Create_Todos("Test "+i+"","Dummy entry #"+i+"");
+
+            //Sample the transaction timestamp
+            transactionTime = System.currentTimeMillis() - startTime;
+            //Add the transaction time sample to the CSV file
+            csvWriter.write(i + "," + transactionTime + "," + System.currentTimeMillis() + "\n");
 
             if (code != 201) {
                 errorCount++;
-            } else {
-
-                //TODO add print time stamp and other things
-
             }
         }
         System.out.println("Performance Test - Creating Todos (Completed)");
         System.out.println("Error Count: "+errorCount+"\n");
+
+        csvWriter.close();
 
         assertTrue("Too many failed POST requests... Error count is too high.",errorCount < 10);
     }
@@ -131,6 +133,9 @@ public class TestTodosPerformance {
 
         errorCount = 0;
 
+        FileWriter csvWriter = new FileWriter("todos_performance_delete.csv");
+        csvWriter.write("Total number of todos,Transaction Time,Current Time MS\n");
+
         for (int i=1; i<1001; i++){
             int response = Create_Todos("Test "+i+"","Dummy entry #"+i+"");
 
@@ -138,31 +143,49 @@ public class TestTodosPerformance {
                 errorCount++;
             }
         }
+
+        //Check for invalid endpoint
+        JSONObject object = APIInstance.request("GET", "/todos/500");
+        boolean beforeValidate = (object == null);
+
         System.out.println("Dummy entries created. Failed Create Count: "+errorCount+".\n" +
                 "Starting the 'Performance Test - Deleting Todos'\n");
 
-        for (int i=1; i>1001; i++){
-            int response = Delete_Todos(i);
+        for (int j=1; j<1001; j++){
+            startTime = System.currentTimeMillis();
+            int response = Delete_Todos(j);
+
+            //Sample the transaction timestamp
+            transactionTime = System.currentTimeMillis() - startTime;
+            //Add the transaction time sample to the CSV file
+            csvWriter.write(1001 - j + "," + transactionTime + "," + System.currentTimeMillis() + "\n");
 
             if (response != 200) {
                 errorCount++;
-            } else {
-
-                //TODO add print time stamp and other things
-
             }
         }
+
+        //Check for invalid endpoint
+        object = APIInstance.request("GET", "/todos/500");
+        boolean afterValidate = (object == null);
+
         System.out.println("Performance Test - Deleting Todos (Completed)");
         System.out.println("Error Count: "+errorCount+"\n");
 
+        csvWriter.close();
+
         assertTrue("Too many failed POST or DELETE requests... Error count is too high.",
-                errorCount < 20);
+                errorCount < 10 && beforeValidate != afterValidate);
     }
+
 
     @Test
     public void performanceTestChange() throws IOException, InterruptedException {
 
         errorCount = 0;
+
+        FileWriter csvWriter = new FileWriter("todos_performance_change.csv");
+        csvWriter.write("Total number of todos,Transaction Time,Current Time MS\n");
 
         for (int i=1; i<1001; i++){
             int code = Create_Todos("Test "+i,"Dummy entry #"+i);
@@ -170,19 +193,27 @@ public class TestTodosPerformance {
             if (code != 201) {
                 errorCount++;
             } else {
+                startTime = System.currentTimeMillis();
                 int success = Change_Todos(i, "New, Test "+i,"New Dummy entry #"+i);
+
+                //Sample the transaction timestamp
+                transactionTime = System.currentTimeMillis() - startTime;
+                //Add the transaction time sample to the CSV file
+                csvWriter.write(i + "," + transactionTime + "," + System.currentTimeMillis() + "\n");
 
                 if (success != 200) {
                     errorCount++;
                 }
-
-                //TODO print timestamp
-
             }
         }
         System.out.println("Performance Test - Changing Todos (Completed)");
         System.out.println("Error Count: "+errorCount+"\n");
 
-        assertTrue("Too many failed POST requests... Error count is too high.",errorCount < 20);
+        csvWriter.close();
+
+        assertTrue("Too many failed POST requests... Error count is too high.",errorCount < 10);
     }
+
+
+
 }
