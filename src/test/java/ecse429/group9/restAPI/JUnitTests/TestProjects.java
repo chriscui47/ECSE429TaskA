@@ -1,7 +1,9 @@
-package ecse429.group9.restAPI;
+package ecse429.group9.restAPI.JUnitTests;
 
 import static org.junit.Assert.assertEquals;
 
+import ecse429.group9.restAPI.APIInstance;
+import ecse429.group9.restAPI.StatusCodes;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;

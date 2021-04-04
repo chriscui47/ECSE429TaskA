@@ -1,5 +1,6 @@
-package ecse429.group9.restAPI;
+package ecse429.group9.restAPI.JUnitTests;
 
+import ecse429.group9.restAPI.APIInstance;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
