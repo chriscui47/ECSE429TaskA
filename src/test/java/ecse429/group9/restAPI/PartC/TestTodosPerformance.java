@@ -111,7 +111,7 @@ public class TestTodosPerformance {
         for (int i=1; i<1001; i++){
             int code = Create_Todos("Test "+i+"","Dummy entry #"+i+"");
 
-            if (code != 200) {
+            if (code != 201) {
                 errorCount++;
             } else {
 
@@ -119,8 +119,8 @@ public class TestTodosPerformance {
 
             }
         }
-        System.out.println("Performance Test - Creating Todos (Completed) \n");
-        System.out.println("Error Count: "+errorCount+"");
+        System.out.println("Performance Test - Creating Todos (Completed)");
+        System.out.println("Error Count: "+errorCount+"\n");
 
         assertTrue("Too many failed POST requests... Error count is too high.",errorCount < 10);
     }
@@ -134,7 +134,7 @@ public class TestTodosPerformance {
         for (int i=1; i<1001; i++){
             int response = Create_Todos("Test "+i+"","Dummy entry #"+i+"");
 
-            if (response != 200) {
+            if (response != 201) {
                 errorCount++;
             }
         }
@@ -152,7 +152,7 @@ public class TestTodosPerformance {
 
             }
         }
-        System.out.println("Performance Test - Deleting Todos (Completed) \n");
+        System.out.println("Performance Test - Deleting Todos (Completed)");
         System.out.println("Error Count: "+errorCount+"\n");
 
         assertTrue("Too many failed POST or DELETE requests... Error count is too high.",
@@ -167,7 +167,7 @@ public class TestTodosPerformance {
         for (int i=1; i<1001; i++){
             int code = Create_Todos("Test "+i,"Dummy entry #"+i);
 
-            if (code != 200) {
+            if (code != 201) {
                 errorCount++;
             } else {
                 int success = Change_Todos(i, "New, Test "+i,"New Dummy entry #"+i);
@@ -180,8 +180,8 @@ public class TestTodosPerformance {
 
             }
         }
-        System.out.println("Performance Test - Changing Todos (Completed) \n");
-        System.out.println("Error Count: "+errorCount+"");
+        System.out.println("Performance Test - Changing Todos (Completed)");
+        System.out.println("Error Count: "+errorCount+"\n");
 
         assertTrue("Too many failed POST requests... Error count is too high.",errorCount < 20);
     }
