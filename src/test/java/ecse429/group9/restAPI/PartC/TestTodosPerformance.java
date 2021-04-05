@@ -15,14 +15,20 @@ import static org.junit.Assert.*;
 public class TestTodosPerformance {
 
     public static int errorCount;
-    public static long startTime;
-    public static long transactionTime = 0;
+    public static int counter;
 
-@After
+    public static long startTime;
+    public static long transactionTime;
+    public static long zeroTime;
+    public static long accumulator;
+
+
+    @After
     public void killInstance() {
         APIInstance.killInstance();
     }
-@Before
+
+    @Before
     public void startInstance()  throws IOException{
         APIInstance.runApplication();
         assertEquals(200, APIInstance.getStatusCode("/todos"));
@@ -53,18 +59,8 @@ public class TestTodosPerformance {
         //Todos to delete
         String endpoint = "/todos/" + id;
 
-        //Check for invalid endpoint
-        JSONObject object = APIInstance.request("GET", endpoint);
-
-        //Make sure GET response is not null to avoid exceptions
-        if (object != null) {
-
-            //DELETE request
-            JSONObject response = APIInstance.request("DELETE", endpoint);
-            return 200;
-        } else {
-            return 400;
-        }
+        //DELETE request
+        return APIInstance.getStatusCode("DELETE", endpoint);
     }
 
     //CHANGE Todos. Returns the API response code of the Request.
@@ -102,18 +98,33 @@ public class TestTodosPerformance {
     public void performanceTestCreate() throws IOException, InterruptedException {
 
         errorCount = 0;
+        counter = 0;
+        accumulator = 0;
+
+        zeroTime = System.currentTimeMillis();
+
 
         FileWriter csvWriter = new FileWriter("todos_performance_create.csv");
         csvWriter.write("Total number of todos,Transaction Time,Current Time MS\n");
 
-        for (int i=1; i<1001; i++){
+        for (int i=1; i<10001; i++) {
             startTime = System.currentTimeMillis();
+
             int code = Create_Todos("Test "+i+"","Dummy entry #"+i+"");
 
+            counter++;
             //Sample the transaction timestamp
             transactionTime = System.currentTimeMillis() - startTime;
-            //Add the transaction time sample to the CSV file
-            csvWriter.write(i + "," + transactionTime + "," + System.currentTimeMillis() + "\n");
+
+            accumulator += transactionTime;
+
+            //Sample at each interval of 50 transactions
+            if (counter == 50) {
+                //Add the transaction time sample to the CSV file
+                csvWriter.write(i + "," + (accumulator/50.0) + "," + (System.currentTimeMillis() - zeroTime) + "\n");
+                counter = 0;
+                accumulator = 0;
+            }
 
             if (code != 201) {
                 errorCount++;
@@ -132,11 +143,15 @@ public class TestTodosPerformance {
     public void performanceTestDelete() throws IOException, InterruptedException {
 
         errorCount = 0;
+        counter = 0;
+        accumulator = 0;
+
+        zeroTime = System.currentTimeMillis();
 
         FileWriter csvWriter = new FileWriter("todos_performance_delete.csv");
         csvWriter.write("Total number of todos,Transaction Time,Current Time MS\n");
 
-        for (int i=1; i<1001; i++){
+        for (int i=1; i<10001; i++){
             int response = Create_Todos("Test "+i+"","Dummy entry #"+i+"");
 
             if (response != 201) {
@@ -151,17 +166,32 @@ public class TestTodosPerformance {
         System.out.println("Dummy entries created. Failed Create Count: "+errorCount+".\n" +
                 "Starting the 'Performance Test - Deleting Todos'\n");
 
-        for (int j=1; j<1001; j++){
+        for (int j=1; j<10001; j++){
             startTime = System.currentTimeMillis();
             int response = Delete_Todos(j);
 
-            //Sample the transaction timestamp
-            transactionTime = System.currentTimeMillis() - startTime;
-            //Add the transaction time sample to the CSV file
-            csvWriter.write(1001 - j + "," + transactionTime + "," + System.currentTimeMillis() + "\n");
+            counter++;
+
+
 
             if (response != 200) {
                 errorCount++;
+                //Add a duplicate of the previous valid transaction time
+                accumulator += transactionTime;
+            } else {
+
+                //Sample the transaction timestamp
+                transactionTime = System.currentTimeMillis() - startTime;
+
+                accumulator += transactionTime;
+
+                //Sample at each interval of 50 transactions
+                if (counter == 50) {
+                    //Add the transaction time sample to the CSV file
+                    csvWriter.write(10001 - j + "," + (accumulator / 50.0) + "," + (System.currentTimeMillis() - zeroTime) + "\n");
+                    counter = 0;
+                    accumulator = 0;
+                }
             }
         }
 
@@ -183,11 +213,15 @@ public class TestTodosPerformance {
     public void performanceTestChange() throws IOException, InterruptedException {
 
         errorCount = 0;
+        counter = 0;
+        accumulator = 0;
+
+        zeroTime = System.currentTimeMillis();
 
         FileWriter csvWriter = new FileWriter("todos_performance_change.csv");
         csvWriter.write("Total number of todos,Transaction Time,Current Time MS\n");
 
-        for (int i=1; i<1001; i++){
+        for (int i=1; i<10000; i++){
             int code = Create_Todos("Test "+i,"Dummy entry #"+i);
 
             if (code != 201) {
@@ -196,10 +230,19 @@ public class TestTodosPerformance {
                 startTime = System.currentTimeMillis();
                 int success = Change_Todos(i, "New, Test "+i,"New Dummy entry #"+i);
 
+                counter++;
                 //Sample the transaction timestamp
                 transactionTime = System.currentTimeMillis() - startTime;
-                //Add the transaction time sample to the CSV file
-                csvWriter.write(i + "," + transactionTime + "," + System.currentTimeMillis() + "\n");
+
+                accumulator += transactionTime;
+
+                //Sample at each interval of 50 transactions
+                if (counter == 50) {
+                    //Add the transaction time sample to the CSV file
+                    csvWriter.write(i + "," + (accumulator/50.0) + "," + (System.currentTimeMillis() - zeroTime) + "\n");
+                    counter = 0;
+                    accumulator = 0;
+                }
 
                 if (success != 200) {
                     errorCount++;
