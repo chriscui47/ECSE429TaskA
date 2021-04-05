@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -27,6 +29,21 @@ public class TestProjectsPerformance {
         APIInstance.runApplication();
         assertEquals(StatusCodes.SC_SUCCESS, APIInstance.getStatusCode(""));
     }
+    public static void addMultipleProjects(String title, String description) throws IOException, InterruptedException {
+        JSONObject response = APIInstance.request("GET", "/categories");
+        //int currentSize = response.getJSONArray("categories").length();
+
+        String option = "/projects";
+        int i=0;
+        while (i<1000) {
+            JSONObject json = new JSONObject();
+            json.put("title", title);
+            json.put("description", description);
+            APIInstance.post(option, json.toString());
+            i++;
+        }
+
+    }
 
     //POST Projects
     public static long Create_Valid_Projects(String title, String description) throws IOException, InterruptedException {
@@ -39,13 +56,9 @@ public class TestProjectsPerformance {
         JSONObject json = new JSONObject();
         json.put("title", title);
         json.put("description", description);
-        APIInstance.post(validID, json.toString());
-        Thread.sleep(500);
+        int code = APIInstance.post2(validID, json.toString());
 
-        JSONObject response = APIInstance.request("GET", "/projects");
-        System.out.println(response);
-
-        endTime = System.currentTimeMillis() - startTime - 500;
+        endTime = System.currentTimeMillis() - startTime;
         return endTime;
     }
 
@@ -57,10 +70,9 @@ public class TestProjectsPerformance {
         String validID = "/projects/1";
         JSONObject jsonNew = new JSONObject();
         jsonNew.put("description", description);
-        APIInstance.post(validID, jsonNew.toString());
-        Thread.sleep(500);
+        int code = APIInstance.post2(validID, jsonNew.toString());
 
-        endTime = System.currentTimeMillis() - startTime - 500;
+        endTime = System.currentTimeMillis() - startTime ;
 
         return endTime;
     }
@@ -72,9 +84,8 @@ public class TestProjectsPerformance {
 
         String valid_id = "/projects/"+ id;
         APIInstance.request("DELETE", valid_id);
-        Thread.sleep(500);
 
-        endTime = System.currentTimeMillis() - startTime - 500;
+        endTime = System.currentTimeMillis() - startTime ;
 
         return endTime;
     }
@@ -82,30 +93,56 @@ public class TestProjectsPerformance {
     @Test
     public void startTest() throws IOException, InterruptedException {
         long[] timesforCreate = new long[1000];
-        int[] ids = new int[1000];
-        for (int i = 0; i < 10; i++) {
-            timesforCreate[i] = Create_Valid_Projects("test", "yolo");
+        FileWriter addCSVWriter = new FileWriter("projectsCreate_performance.csv");
+        addCSVWriter.write("Total number of projects,Transaction Time,Current Time MS\n");
+
+
+        for (int i = 2; i < 10000; i++) {
+            long currentTime = System.currentTimeMillis();
+            long transaction =  Create_Valid_Projects("test", "yolo");
+            addCSVWriter.write( i + "," + transaction + "," + currentTime + "\n");
         }
 
 
-        System.out.println(Arrays.toString(timesforCreate));
-
-        long[] timesForDelete = new long[1000];
-        for (int i = 10; i >= 0; i--) {
-            timesforCreate[i] = Delete_Valid_Projects(i);
-        }
-
+        addCSVWriter.close();
     }
 
     @Test
-    public void startUpdateDescription() throws IOException, InterruptedException {
-        long[] timesforUpdate = new long[1000];
-        //create project w id 1
-        Create_Valid_Projects("test", "yolo");
-        for (int i = 0; i < 300; i++) {
-            timesforUpdate[i] = Update_Description("testtttttttt");
+    public void deleteTest() throws IOException, InterruptedException {
+        FileWriter addCSVWriter = new FileWriter("projectsDelete_performance.csv");
+        addCSVWriter.write("Total number of projects,Transaction Time,Current Time MS\n");
+
+
+        addMultipleProjects("test","test");
+        for (int i = 1; i < 10000; i++) {
+            long currentTime = System.currentTimeMillis();
+            long transaction =  Delete_Valid_Projects(i);
+
+            addCSVWriter.write((1000-i) + "," + transaction + "," + currentTime + "\n");
         }
-        System.out.println(Arrays.toString(timesforUpdate));
+
+        addCSVWriter.close();
+
+    }
+
+
+
+
+    @Test
+    public void updateDescriptionTest() throws IOException, InterruptedException {
+        FileWriter addCSVWriter = new FileWriter("projectsUpdate_performance.csv");
+        addCSVWriter.write("Total number of projects,Transaction Time,Current Time MS\n");
+
+        //create project w id 1
+
+        Create_Valid_Projects("test", "yolo");
+
+        for (int i = 0; i < 10000; i++) {
+            long currentTime = System.currentTimeMillis();
+            long transaction =  Update_Description("testt");
+            addCSVWriter.write(i + "," + transaction + "," + currentTime + "\n");
+        }
+        addCSVWriter.close();
 
     }
 
