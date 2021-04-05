@@ -154,6 +154,10 @@ public class TestTodosPerformance {
         for (int i=1; i<10001; i++){
             int response = Create_Todos("Test "+i+"","Dummy entry #"+i+"");
 
+            if (i == 9995) {
+                System.out.println("almost done adding... start perfmon");
+            }
+
             if (response != 201) {
                 errorCount++;
             }

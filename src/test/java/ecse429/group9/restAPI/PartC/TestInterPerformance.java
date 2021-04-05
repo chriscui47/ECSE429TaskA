@@ -78,6 +78,10 @@ public class TestInterPerformance {
         for (int i = 1; i < 10001; i++){
             Create_Init("Test " + i + "","Entry #" + i + "");
             Create(i);
+
+            if (i == 9995) {
+                System.out.println("almost done adding... start perfmon");
+            }
         }
 
         Thread.sleep(500);
