@@ -52,11 +52,11 @@ public class TestInterPerformance {
         FileWriter csvWriter = new FileWriter("inter_performance_create.csv");
         csvWriter.write("Total number, Transaction Time, Current Time MS\n");
 
-        for (int i = 1; i < 1001; i++){
+        for (int i = 1; i < 10001; i++){
             Create_Init("Test " + i + "","" + "Entry # " + i + "");
         }
 
-        for (int i = 1; i < 1001; i++) {
+        for (int i = 1; i < 10001; i++) {
             startTime = System.currentTimeMillis();
             Create(i);
             transactionTime = System.currentTimeMillis() - startTime;
@@ -75,14 +75,14 @@ public class TestInterPerformance {
         FileWriter csvWriter = new FileWriter("inter_performance_delete.csv");
         csvWriter.write("Total number, Transaction Time, Current Time MS\n");
 
-        for (int i = 1; i < 1001; i++){
+        for (int i = 1; i < 10001; i++){
             Create_Init("Test " + i + "","Entry #" + i + "");
             Create(i);
         }
 
         Thread.sleep(500);
 
-        for (int i = 1; i < 1001; i++){
+        for (int i = 1; i < 10001; i++){
             startTime = System.currentTimeMillis();
             Delete(i);
             transactionTime = System.currentTimeMillis() - startTime;
